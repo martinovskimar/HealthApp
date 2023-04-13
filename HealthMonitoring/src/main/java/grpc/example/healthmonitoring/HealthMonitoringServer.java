@@ -122,5 +122,68 @@ public class HealthMonitoringServer extends HealthMonitoringServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+	
+    @Override
+    public StreamObserver<UserStressRequest> trackStress(StreamObserver<UserStressResponse> responseObserver) {
+        return new StreamObserver<UserStressRequest>() {
+            private int totalHearthRate = 0;
+            private int totalBreathingRate = 0;
+            private int numRequests = 0;
+
+            @Override
+            public void onNext(UserStressRequest request) {
+                totalHearthRate += request.getHearthRate();
+                totalBreathingRate += request.getBreathingRate();
+                numRequests++;
+                float stressLevel = calculateStressLevel(totalHearthRate, totalBreathingRate, numRequests);
+                String advice = getAdvice(stressLevel);
+                UserStressResponse response = UserStressResponse.newBuilder()
+                        .setStresLeve(stressLevel)
+                        .setAdvice(advice)
+                        .build();
+                responseObserver.onNext(response);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                // Handle error
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onCompleted();
+            }
+
+            private float calculateStressLevel(int totalHearthRate, int totalBreathingRate, int numRequests) {
+            	Random random = new Random();
+            	
+                if(totalHearthRate > 120 && totalBreathingRate > 25) {
+                	//randomly generate number between 65 and 99
+                	float stressLevel = 65 + random.nextFloat() * 34;
+                	return stressLevel;
+                } else if(totalHearthRate < 60 && totalBreathingRate < 12) {
+                	//randomly generate number between 10 and 40
+                	float stressLevel = 10 + random.nextFloat() * 30;
+                	return stressLevel;
+                } else {
+                	//randomly generate number between 40 and 65
+                	float stressLevel = 40 + random.nextFloat() * 25;
+                	return stressLevel;
+                }
+            }
+
+            private String getAdvice(float stressLevel) {
+                if(stressLevel >= 65) {
+                	return "Waning, Stress level to high. Take several deep breaths";
+                } else if(stressLevel <= 40 && stressLevel > 10) {
+                	return "Warning, breathing and hearth rate to low.";
+                } else if(stressLevel > 40 && stressLevel < 65) {
+                	return "Stress levels normal.";
+                } else {
+                	return "Wrong data";
+                }
+            }
+        };
+    }
 
 }

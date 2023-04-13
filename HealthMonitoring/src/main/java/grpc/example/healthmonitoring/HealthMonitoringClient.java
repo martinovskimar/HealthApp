@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -156,15 +157,66 @@ public class HealthMonitoringClient {
                     System.out.println("Sleep tracking completed.");
                 }
             });
+           
        
+    }
+    
+    public void trackStress() throws InterruptedException {
+        CountDownLatch finishLatch = new CountDownLatch(1);
+        StreamObserver<UserStressResponse> responseObserver = new StreamObserver<UserStressResponse>() {
+            @Override
+            public void onNext(UserStressResponse response) {
+                JOptionPane.showMessageDialog(null,
+                        "Stress level: " + response.getStresLeve() + "\n" +
+                        "Advice: " + response.getAdvice(),
+                        "Stress Level", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                // Handle error
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                finishLatch.countDown();
+            }
+        };
+        StreamObserver<UserStressRequest> requestObserver = stub.trackStress(responseObserver);
+        try {
+            Scanner scanner = new Scanner(System.in);
+            int counter = 0;
+            while (counter <= 5) {
+                String hearthRateStr = JOptionPane.showInputDialog("Enter heart rate:");
+                String breathingRateStr = JOptionPane.showInputDialog("Enter breathing rate:");
+                int hearthRate = Integer.parseInt(hearthRateStr);
+                int breathingRate = Integer.parseInt(breathingRateStr);
+                UserStressRequest request = UserStressRequest.newBuilder()
+                        .setHearthRate(hearthRate)
+                        .setBreathingRate(breathingRate)
+                        .build();
+                requestObserver.onNext(request);
+                counter++;
+            }
+        } catch (Exception e) {
+            requestObserver.onError(e);
+        }
+        requestObserver.onCompleted();
+        finishLatch.await();
+    }
+
+    public void shutdown() throws InterruptedException {
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
     public static void main(String[] args) throws InterruptedException {
         HealthMonitoringClient client = new HealthMonitoringClient("localhost", 5002);
-        //client.trackSteps();
+//        client.trackSteps();
 //        client.hearthRate();
-        client.trackSleep();
-        client.shutdown();
+//        client.trackSleep();
+        client.trackStress();
+        
         
     }
 }
