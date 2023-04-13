@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+option java_multiple_files = true;
+option java_package = "grpc.example.healthmonitoring";
+option java_outer_classname = "healthMonitoringProto";
+
+service HealthMonitoringService {
+  rpc TrackSteps(UserStepsRequest) returns (stream UserStepsResponse) {}
+  rpc HearthRate(UserHearthRateRequest) returns (stream UserHearthRateResponse) {}
+  rpc TrackSleep(UserSleepRequest) returns (UserSleepResponse) {}
+  rpc TrackStress(stream UserStressRequest) returns (stream UserStressResponse) {}
+
+}
+message UserStepsRequest {
+  string username = 1;
+}
+
+message UserStepsResponse {
+  int32 current_steps = 1;
+  bool goal_achieved = 2;
+  int32 average_steps = 3;
+}
+
+message UserHearthRateRequest {
+  string username = 1;
+}
+
+message UserHearthRateResponse {
+  int32 curent_hearth_rate = 1;
+  string warning_message = 2;
+} 
+
+message UserSleepRequest {
+  string username = 1;
+  google.protobuf.Timestamp sleep_time = 2;
+  google.protobuf.Timestamp wakeup_time = 3;
+  int32 snorint_time_minutes = 4; 
+}
+
+message UserSleepResponse {
+  int32 total_sleep_time_minutes = 1;
+  double sleep_score = 2;
+  SleepDisorder sleep_disprder = 3;
+}
+
+enum SleepDisorder {
+  NONE = 0;
+  INSOMNIA = 1;
+  SLEEP_APNEA = 2;
+  NARCOLEPSY = 3;
+}
+
+message UserStressRequest {
+  int32 hearth_rate = 1;
+  int32 breathing_rate = 2;
+}
+
+message UserStressResponse {
+  float stres_leve = 1;
+  string advice = 2;
+}
+
