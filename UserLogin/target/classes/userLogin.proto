@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "grpc.examples.userLogin";
+option java_outer_classname = "userLoginProto";
+
+service userLogin {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  LoginStatus status = 1;
+  string userStatus = 2;
+}
+
+message LogoutRequest {
+  string userStatus = 1;
+}
+
+message LogoutResponse {
+  LogoutStatus status = 1;
+}
+
+enum LoginStatus {
+  LOGIN_SUCCESSFULL = 0;
+  INCORRECT_LOGIN_DETAILS = 1;
+}
+
+enum LogoutStatus {
+  LOGOUT_SUCCESSFULL = 0;
+  INVALID_USERSTATUS = 1;
+}
