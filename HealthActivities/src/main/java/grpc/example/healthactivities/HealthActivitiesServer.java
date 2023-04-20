@@ -51,5 +51,35 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
          responseObserver.onNext(response);
          responseObserver.onCompleted();
      }
+	 
+	 @Override
+     public StreamObserver<NutritionRequest> nutritionInformation(StreamObserver<NutritionResponse> responseObserver) {
+         return new StreamObserver<NutritionRequest>() {
+             int totalCaloriesIntake = 0;
+             boolean isCaloricSurplus = false;
+
+             @Override
+             public void onNext(NutritionRequest nutritionRequest) {
+                 int caloriesIntake = nutritionRequest.getCaloriesIntake();
+                 totalCaloriesIntake += caloriesIntake;
+                 isCaloricSurplus = totalCaloriesIntake > 0;
+             }
+
+             @Override
+             public void onError(Throwable throwable) {
+                 System.err.println("Error in NutritionInformation: " + throwable.getMessage());
+             }
+
+             @Override
+             public void onCompleted() {
+                 NutritionResponse response = NutritionResponse.newBuilder()
+                         .setTotalCaloriesIntake(totalCaloriesIntake)
+                         .setIsCaloricSurplus(isCaloricSurplus)
+                         .build();
+                 responseObserver.onNext(response);
+                 responseObserver.onCompleted();
+             }
+         };
+     }
 	
 }

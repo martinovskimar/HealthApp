@@ -9,9 +9,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 public class HealthActivitiesClient {
 
@@ -107,11 +112,159 @@ public class HealthActivitiesClient {
 	    public void shutdown() throws InterruptedException {
 	        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	    }
+	    
+	    
 
 	    public static void main(String[] args) throws Exception {
-	        HealthActivitiesClient client = new HealthActivitiesClient("localhost", 5003);
-	        client.blockingStub.exercise(ExerciseRequest.newBuilder()
-	                .setExerciseType("Running")
-	                .build());
+//	        HealthActivitiesClient client = new HealthActivitiesClient("localhost", 5003);
+//	        client.blockingStub.exercise(ExerciseRequest.newBuilder()
+//	                .setExerciseType("Running")
+//	                .build());
+	        NutritionClient nutritionClient = new NutritionClient("localhost", 5003);
+	        nutritionClient.sendNutritionInformation();
+	       
 	    }
+	    
+	    public static class NutritionClient {
+	    	private HealthActivitiesServiceGrpc.HealthActivitiesServiceStub stub;
+	        private ManagedChannel channel;
+
+	        private JFrame frame;
+	        private JLabel mealLabel;
+	        private JLabel caloriesLabel;
+	        private JTextField breakfastField;
+	        private JTextField lunchField;
+	        private JTextField dinnerField;
+	        private JTextField snackField;
+	        private JButton submitButton;
+
+	        public NutritionClient(String host, int port) {
+	            channel = ManagedChannelBuilder.forAddress(host, port)
+	                    .usePlaintext()
+	                    .build();
+	            stub = HealthActivitiesServiceGrpc.newStub(channel);
+
+	            frame = new JFrame("Nutrition Tracker");
+	            frame.setSize(300, 250);
+	            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	            frame.setLayout(new GridLayout(5, 2, 10, 10));
+
+	            mealLabel = new JLabel("Meal", SwingConstants.CENTER);
+	            caloriesLabel = new JLabel("Calories", SwingConstants.CENTER);
+	            breakfastField = new JTextField();
+	            lunchField = new JTextField();
+	            dinnerField = new JTextField();
+	            snackField = new JTextField();
+	            submitButton = new JButton("Submit");
+
+	            JPanel breakfastPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+	            breakfastPanel.add(new JLabel("Breakfast"));
+	            breakfastPanel.add(breakfastField);
+
+	            JPanel lunchPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+	            lunchPanel.add(new JLabel("Lunch"));
+	            lunchPanel.add(lunchField);
+
+	            JPanel dinnerPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+	            dinnerPanel.add(new JLabel("Dinner"));
+	            dinnerPanel.add(dinnerField);
+
+	            JPanel snackPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+	            snackPanel.add(new JLabel("Snack"));
+	            snackPanel.add(snackField);
+
+	            JPanel buttonPanel = new JPanel();
+	            buttonPanel.add(submitButton);
+
+	            frame.add(mealLabel);
+	            frame.add(caloriesLabel);
+	            frame.add(breakfastPanel);
+	            frame.add(lunchPanel);
+	            frame.add(dinnerPanel);
+	            frame.add(snackPanel);
+	            frame.add(new JLabel());
+	            frame.add(buttonPanel);
+
+	            submitButton.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    sendNutritionInformation();
+	                }
+	            });
+
+	            frame.setVisible(true);
+	        }
+
+
+	        private void sendNutritionInformation() {
+	            StreamObserver<NutritionRequest> requestObserver = stub.nutritionInformation(new StreamObserver<NutritionResponse>() {
+	                @Override
+	                public void onNext(NutritionResponse nutritionResponse) {
+	                    int totalCaloriesIntake = nutritionResponse.getTotalCaloriesIntake();
+	                    String calorieStatus = totalCaloriesIntake > 2400 ? "Surplus" : "Deficit";
+	                    JOptionPane.showMessageDialog(frame, "Total Calories Intake: " + totalCaloriesIntake +
+	                            "\nCalorie Status: " + calorieStatus);
+	                }
+
+	                @Override
+	                public void onError(Throwable throwable) {
+	                    JOptionPane.showMessageDialog(frame, "Error: " + throwable.getMessage());
+	                }
+
+	                @Override
+	                public void onCompleted() {
+	                    System.out.println("NutritionInformation completed");
+	                }
+	            });
+
+	            int totalCalories = 0;
+
+	            String breakfastCalories = breakfastField.getText();
+	            if (!breakfastCalories.isEmpty()) {
+	                NutritionRequest breakfastRequest = NutritionRequest.newBuilder()
+	                        .setMeal("Breakfast")
+	                        .setCaloriesIntake(Integer.parseInt(breakfastCalories))
+	                        .build();
+	                requestObserver.onNext(breakfastRequest);
+	                totalCalories += Integer.parseInt(breakfastCalories);
+	            }
+
+	            String lunchCalories = lunchField.getText();
+	            if (!lunchCalories.isEmpty()) {
+	                NutritionRequest lunchRequest = NutritionRequest.newBuilder()
+	                       .setMeal("Lunch")
+	    		   .setCaloriesIntake(Integer.parseInt(lunchCalories))
+	    		   .build();
+	    	   requestObserver.onNext(lunchRequest);
+	               totalCalories += Integer.parseInt(lunchCalories);
+	    }
+	        String dinnerCalories = dinnerField.getText();
+	        if (!dinnerCalories.isEmpty()) {
+	            NutritionRequest dinnerRequest = NutritionRequest.newBuilder()
+	                    .setMeal("Dinner")
+	                    .setCaloriesIntake(Integer.parseInt(dinnerCalories))
+	                    .build();
+	            requestObserver.onNext(dinnerRequest);
+	            totalCalories += Integer.parseInt(dinnerCalories);
+	        }
+
+	        String snackCalories = snackField.getText();
+	        if (!snackCalories.isEmpty()) {
+	            NutritionRequest snackRequest = NutritionRequest.newBuilder()
+	                    .setMeal("Snack")
+	                    .setCaloriesIntake(Integer.parseInt(snackCalories))
+	                    .build();
+	            requestObserver.onNext(snackRequest);
+	            totalCalories += Integer.parseInt(snackCalories);
+	        }
+
+	        requestObserver.onCompleted();
+	    }
+
+	    public void shutdown() throws InterruptedException {
+	        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+	    }
+	    
+	   
+	}   
 }
