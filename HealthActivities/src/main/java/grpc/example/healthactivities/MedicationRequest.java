@@ -84,6 +84,10 @@ private static final long serialVersionUID = 0L;
   public static final int USERNAME_FIELD_NUMBER = 1;
   private volatile java.lang.Object username_;
   /**
+   * <pre>
+   * The username of the patient.
+   * </pre>
+   *
    * <code>string username = 1;</code>
    */
   public java.lang.String getUsername() {
@@ -99,6 +103,10 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
+   * <pre>
+   * The username of the patient.
+   * </pre>
+   *
    * <code>string username = 1;</code>
    */
   public com.google.protobuf.ByteString
@@ -420,6 +428,10 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object username_ = "";
     /**
+     * <pre>
+     * The username of the patient.
+     * </pre>
+     *
      * <code>string username = 1;</code>
      */
     public java.lang.String getUsername() {
@@ -435,6 +447,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * The username of the patient.
+     * </pre>
+     *
      * <code>string username = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -451,6 +467,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * The username of the patient.
+     * </pre>
+     *
      * <code>string username = 1;</code>
      */
     public Builder setUsername(
@@ -464,6 +484,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * The username of the patient.
+     * </pre>
+     *
      * <code>string username = 1;</code>
      */
     public Builder clearUsername() {
@@ -473,6 +497,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * The username of the patient.
+     * </pre>
+     *
      * <code>string username = 1;</code>
      */
     public Builder setUsernameBytes(

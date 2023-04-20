@@ -16,8 +16,8 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private MedicationReminder() {
-    medicationName_ = "";
-    message_ = "";
+    time_ = "";
+    medication_ = "";
   }
 
   @java.lang.Override
@@ -47,26 +47,13 @@ private static final long serialVersionUID = 0L;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            medicationName_ = s;
+            time_ = s;
             break;
           }
           case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            message_ = s;
-            break;
-          }
-          case 26: {
-            com.google.protobuf.Timestamp.Builder subBuilder = null;
-            if (reminderTime_ != null) {
-              subBuilder = reminderTime_.toBuilder();
-            }
-            reminderTime_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(reminderTime_);
-              reminderTime_ = subBuilder.buildPartial();
-            }
-
+            medication_ = s;
             break;
           }
           default: {
@@ -101,93 +88,88 @@ private static final long serialVersionUID = 0L;
             grpc.example.healthactivities.MedicationReminder.class, grpc.example.healthactivities.MedicationReminder.Builder.class);
   }
 
-  public static final int MEDICATION_NAME_FIELD_NUMBER = 1;
-  private volatile java.lang.Object medicationName_;
+  public static final int TIME_FIELD_NUMBER = 1;
+  private volatile java.lang.Object time_;
   /**
-   * <code>string medication_name = 1;</code>
+   * <pre>
+   * The time of the medication reminder.
+   * </pre>
+   *
+   * <code>string time = 1;</code>
    */
-  public java.lang.String getMedicationName() {
-    java.lang.Object ref = medicationName_;
+  public java.lang.String getTime() {
+    java.lang.Object ref = time_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      medicationName_ = s;
+      time_ = s;
       return s;
     }
   }
   /**
-   * <code>string medication_name = 1;</code>
+   * <pre>
+   * The time of the medication reminder.
+   * </pre>
+   *
+   * <code>string time = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getMedicationNameBytes() {
-    java.lang.Object ref = medicationName_;
+      getTimeBytes() {
+    java.lang.Object ref = time_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      medicationName_ = b;
+      time_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 2;
-  private volatile java.lang.Object message_;
+  public static final int MEDICATION_FIELD_NUMBER = 2;
+  private volatile java.lang.Object medication_;
   /**
-   * <code>string message = 2;</code>
+   * <pre>
+   * The name of the medication.
+   * </pre>
+   *
+   * <code>string medication = 2;</code>
    */
-  public java.lang.String getMessage() {
-    java.lang.Object ref = message_;
+  public java.lang.String getMedication() {
+    java.lang.Object ref = medication_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      message_ = s;
+      medication_ = s;
       return s;
     }
   }
   /**
-   * <code>string message = 2;</code>
+   * <pre>
+   * The name of the medication.
+   * </pre>
+   *
+   * <code>string medication = 2;</code>
    */
   public com.google.protobuf.ByteString
-      getMessageBytes() {
-    java.lang.Object ref = message_;
+      getMedicationBytes() {
+    java.lang.Object ref = medication_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      message_ = b;
+      medication_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
-  }
-
-  public static final int REMINDER_TIME_FIELD_NUMBER = 3;
-  private com.google.protobuf.Timestamp reminderTime_;
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  public boolean hasReminderTime() {
-    return reminderTime_ != null;
-  }
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  public com.google.protobuf.Timestamp getReminderTime() {
-    return reminderTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : reminderTime_;
-  }
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  public com.google.protobuf.TimestampOrBuilder getReminderTimeOrBuilder() {
-    return getReminderTime();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -204,14 +186,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getMedicationNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, medicationName_);
+    if (!getTimeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, time_);
     }
-    if (!getMessageBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
-    }
-    if (reminderTime_ != null) {
-      output.writeMessage(3, getReminderTime());
+    if (!getMedicationBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, medication_);
     }
     unknownFields.writeTo(output);
   }
@@ -222,15 +201,11 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getMedicationNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, medicationName_);
+    if (!getTimeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, time_);
     }
-    if (!getMessageBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
-    }
-    if (reminderTime_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, getReminderTime());
+    if (!getMedicationBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, medication_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -248,15 +223,10 @@ private static final long serialVersionUID = 0L;
     grpc.example.healthactivities.MedicationReminder other = (grpc.example.healthactivities.MedicationReminder) obj;
 
     boolean result = true;
-    result = result && getMedicationName()
-        .equals(other.getMedicationName());
-    result = result && getMessage()
-        .equals(other.getMessage());
-    result = result && (hasReminderTime() == other.hasReminderTime());
-    if (hasReminderTime()) {
-      result = result && getReminderTime()
-          .equals(other.getReminderTime());
-    }
+    result = result && getTime()
+        .equals(other.getTime());
+    result = result && getMedication()
+        .equals(other.getMedication());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -268,14 +238,10 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MEDICATION_NAME_FIELD_NUMBER;
-    hash = (53 * hash) + getMedicationName().hashCode();
-    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getMessage().hashCode();
-    if (hasReminderTime()) {
-      hash = (37 * hash) + REMINDER_TIME_FIELD_NUMBER;
-      hash = (53 * hash) + getReminderTime().hashCode();
-    }
+    hash = (37 * hash) + TIME_FIELD_NUMBER;
+    hash = (53 * hash) + getTime().hashCode();
+    hash = (37 * hash) + MEDICATION_FIELD_NUMBER;
+    hash = (53 * hash) + getMedication().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -409,16 +375,10 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      medicationName_ = "";
+      time_ = "";
 
-      message_ = "";
+      medication_ = "";
 
-      if (reminderTimeBuilder_ == null) {
-        reminderTime_ = null;
-      } else {
-        reminderTime_ = null;
-        reminderTimeBuilder_ = null;
-      }
       return this;
     }
 
@@ -445,13 +405,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public grpc.example.healthactivities.MedicationReminder buildPartial() {
       grpc.example.healthactivities.MedicationReminder result = new grpc.example.healthactivities.MedicationReminder(this);
-      result.medicationName_ = medicationName_;
-      result.message_ = message_;
-      if (reminderTimeBuilder_ == null) {
-        result.reminderTime_ = reminderTime_;
-      } else {
-        result.reminderTime_ = reminderTimeBuilder_.build();
-      }
+      result.time_ = time_;
+      result.medication_ = medication_;
       onBuilt();
       return result;
     }
@@ -500,16 +455,13 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.example.healthactivities.MedicationReminder other) {
       if (other == grpc.example.healthactivities.MedicationReminder.getDefaultInstance()) return this;
-      if (!other.getMedicationName().isEmpty()) {
-        medicationName_ = other.medicationName_;
+      if (!other.getTime().isEmpty()) {
+        time_ = other.time_;
         onChanged();
       }
-      if (!other.getMessage().isEmpty()) {
-        message_ = other.message_;
+      if (!other.getMedication().isEmpty()) {
+        medication_ = other.medication_;
         onChanged();
-      }
-      if (other.hasReminderTime()) {
-        mergeReminderTime(other.getReminderTime());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -540,259 +492,182 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object medicationName_ = "";
+    private java.lang.Object time_ = "";
     /**
-     * <code>string medication_name = 1;</code>
+     * <pre>
+     * The time of the medication reminder.
+     * </pre>
+     *
+     * <code>string time = 1;</code>
      */
-    public java.lang.String getMedicationName() {
-      java.lang.Object ref = medicationName_;
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        medicationName_ = s;
+        time_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <pre>
+     * The time of the medication reminder.
+     * </pre>
+     *
+     * <code>string time = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getMedicationNameBytes() {
-      java.lang.Object ref = medicationName_;
+        getTimeBytes() {
+      java.lang.Object ref = time_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        medicationName_ = b;
+        time_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <pre>
+     * The time of the medication reminder.
+     * </pre>
+     *
+     * <code>string time = 1;</code>
      */
-    public Builder setMedicationName(
+    public Builder setTime(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      medicationName_ = value;
+      time_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <pre>
+     * The time of the medication reminder.
+     * </pre>
+     *
+     * <code>string time = 1;</code>
      */
-    public Builder clearMedicationName() {
+    public Builder clearTime() {
       
-      medicationName_ = getDefaultInstance().getMedicationName();
+      time_ = getDefaultInstance().getTime();
       onChanged();
       return this;
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <pre>
+     * The time of the medication reminder.
+     * </pre>
+     *
+     * <code>string time = 1;</code>
      */
-    public Builder setMedicationNameBytes(
+    public Builder setTimeBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      medicationName_ = value;
+      time_ = value;
       onChanged();
       return this;
     }
 
-    private java.lang.Object message_ = "";
+    private java.lang.Object medication_ = "";
     /**
-     * <code>string message = 2;</code>
+     * <pre>
+     * The name of the medication.
+     * </pre>
+     *
+     * <code>string medication = 2;</code>
      */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
+    public java.lang.String getMedication() {
+      java.lang.Object ref = medication_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        message_ = s;
+        medication_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string message = 2;</code>
+     * <pre>
+     * The name of the medication.
+     * </pre>
+     *
+     * <code>string medication = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
+        getMedicationBytes() {
+      java.lang.Object ref = medication_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        message_ = b;
+        medication_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string message = 2;</code>
+     * <pre>
+     * The name of the medication.
+     * </pre>
+     *
+     * <code>string medication = 2;</code>
      */
-    public Builder setMessage(
+    public Builder setMedication(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      message_ = value;
+      medication_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 2;</code>
+     * <pre>
+     * The name of the medication.
+     * </pre>
+     *
+     * <code>string medication = 2;</code>
      */
-    public Builder clearMessage() {
+    public Builder clearMedication() {
       
-      message_ = getDefaultInstance().getMessage();
+      medication_ = getDefaultInstance().getMedication();
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 2;</code>
+     * <pre>
+     * The name of the medication.
+     * </pre>
+     *
+     * <code>string medication = 2;</code>
      */
-    public Builder setMessageBytes(
+    public Builder setMedicationBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      message_ = value;
+      medication_ = value;
       onChanged();
       return this;
-    }
-
-    private com.google.protobuf.Timestamp reminderTime_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> reminderTimeBuilder_;
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public boolean hasReminderTime() {
-      return reminderTimeBuilder_ != null || reminderTime_ != null;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public com.google.protobuf.Timestamp getReminderTime() {
-      if (reminderTimeBuilder_ == null) {
-        return reminderTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : reminderTime_;
-      } else {
-        return reminderTimeBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public Builder setReminderTime(com.google.protobuf.Timestamp value) {
-      if (reminderTimeBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        reminderTime_ = value;
-        onChanged();
-      } else {
-        reminderTimeBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public Builder setReminderTime(
-        com.google.protobuf.Timestamp.Builder builderForValue) {
-      if (reminderTimeBuilder_ == null) {
-        reminderTime_ = builderForValue.build();
-        onChanged();
-      } else {
-        reminderTimeBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public Builder mergeReminderTime(com.google.protobuf.Timestamp value) {
-      if (reminderTimeBuilder_ == null) {
-        if (reminderTime_ != null) {
-          reminderTime_ =
-            com.google.protobuf.Timestamp.newBuilder(reminderTime_).mergeFrom(value).buildPartial();
-        } else {
-          reminderTime_ = value;
-        }
-        onChanged();
-      } else {
-        reminderTimeBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public Builder clearReminderTime() {
-      if (reminderTimeBuilder_ == null) {
-        reminderTime_ = null;
-        onChanged();
-      } else {
-        reminderTime_ = null;
-        reminderTimeBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public com.google.protobuf.Timestamp.Builder getReminderTimeBuilder() {
-      
-      onChanged();
-      return getReminderTimeFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    public com.google.protobuf.TimestampOrBuilder getReminderTimeOrBuilder() {
-      if (reminderTimeBuilder_ != null) {
-        return reminderTimeBuilder_.getMessageOrBuilder();
-      } else {
-        return reminderTime_ == null ?
-            com.google.protobuf.Timestamp.getDefaultInstance() : reminderTime_;
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
-        getReminderTimeFieldBuilder() {
-      if (reminderTimeBuilder_ == null) {
-        reminderTimeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
-                getReminderTime(),
-                getParentForChildren(),
-                isClean());
-        reminderTime_ = null;
-      }
-      return reminderTimeBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

@@ -8,11 +8,12 @@ public interface ExerciseRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
+   * <code>string exercise_type = 1;</code>
    */
-  int getTypeOfExerciseValue();
+  java.lang.String getExerciseType();
   /**
-   * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
+   * <code>string exercise_type = 1;</code>
    */
-  grpc.example.healthactivities.ExerciseRequest.TypeOfExercise getTypeOfExercise();
+  com.google.protobuf.ByteString
+      getExerciseTypeBytes();
 }

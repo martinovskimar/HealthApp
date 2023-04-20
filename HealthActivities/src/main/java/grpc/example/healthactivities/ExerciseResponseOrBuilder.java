@@ -8,51 +8,38 @@ public interface ExerciseResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 duration = 1;</code>
+   * <pre>
+   * The duration of the exercise in minutes
+   * </pre>
+   *
+   * <code>int32 duration_minutes = 1;</code>
    */
-  int getDuration();
+  int getDurationMinutes();
 
   /**
-   * <code>int32 total_calories = 2;</code>
+   * <pre>
+   * The total number of calories burned during the exercise
+   * </pre>
+   *
+   * <code>float calories_burned = 2;</code>
    */
-  int getTotalCalories();
+  float getCaloriesBurned();
 
   /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
+   * <pre>
+   * The average heart rate during the exercise
+   * </pre>
+   *
+   * <code>int32 avg_heart_rate = 3;</code>
    */
-  java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone> 
-      getHeartRateZonesList();
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  grpc.example.healthactivities.ExerciseResponse.HeartRateZone getHeartRateZones(int index);
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  int getHeartRateZonesCount();
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  java.util.List<? extends grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder> 
-      getHeartRateZonesOrBuilderList();
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder getHeartRateZonesOrBuilder(
-      int index);
+  int getAvgHeartRate();
 
   /**
-   * <code>int32 average_heart_rate = 4;</code>
-   */
-  int getAverageHeartRate();
-
-  /**
-   * <code>int32 max_heart_rate = 5;</code>
+   * <pre>
+   * The maximum heart rate achieved during the exercise
+   * </pre>
+   *
+   * <code>int32 max_heart_rate = 4;</code>
    */
   int getMaxHeartRate();
-
-  /**
-   * <code>int32 calories_spent = 6;</code>
-   */
-  int getCaloriesSpent();
 }

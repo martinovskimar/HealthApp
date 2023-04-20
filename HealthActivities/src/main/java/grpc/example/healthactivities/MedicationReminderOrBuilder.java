@@ -8,35 +8,38 @@ public interface MedicationReminderOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string medication_name = 1;</code>
+   * <pre>
+   * The time of the medication reminder.
+   * </pre>
+   *
+   * <code>string time = 1;</code>
    */
-  java.lang.String getMedicationName();
+  java.lang.String getTime();
   /**
-   * <code>string medication_name = 1;</code>
+   * <pre>
+   * The time of the medication reminder.
+   * </pre>
+   *
+   * <code>string time = 1;</code>
    */
   com.google.protobuf.ByteString
-      getMedicationNameBytes();
+      getTimeBytes();
 
   /**
-   * <code>string message = 2;</code>
+   * <pre>
+   * The name of the medication.
+   * </pre>
+   *
+   * <code>string medication = 2;</code>
    */
-  java.lang.String getMessage();
+  java.lang.String getMedication();
   /**
-   * <code>string message = 2;</code>
+   * <pre>
+   * The name of the medication.
+   * </pre>
+   *
+   * <code>string medication = 2;</code>
    */
   com.google.protobuf.ByteString
-      getMessageBytes();
-
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  boolean hasReminderTime();
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  com.google.protobuf.Timestamp getReminderTime();
-  /**
-   * <code>.google.protobuf.Timestamp reminder_time = 3;</code>
-   */
-  com.google.protobuf.TimestampOrBuilder getReminderTimeOrBuilder();
+      getMedicationBytes();
 }

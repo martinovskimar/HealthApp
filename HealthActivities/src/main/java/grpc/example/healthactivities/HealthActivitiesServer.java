@@ -2,14 +2,14 @@ package grpc.example.healthactivities;
 
 import java.io.IOException;
 
-import grpc.example.healthactivities.ExerciseRequest.TypeOfExercise;
+import grpc.example.healthactivities.HealthActivitiesServer;
 import grpc.example.healthactivities.HealthActivitiesServiceGrpc.HealthActivitiesServiceImplBase;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
 public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
-	
+
 	public static void main(String args []) throws IOException, InterruptedException {
 		
 		HealthActivitiesServer healthActivitiesServer = new HealthActivitiesServer();
@@ -35,8 +35,21 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 		}
 	}
 	
-    @Override
-    public void exercise(ExerciseRequest request, StreamObserver<ExerciseResponse> responseObserver) {
-
-
+	 @Override
+     public void exercise(ExerciseRequest request, StreamObserver<ExerciseResponse> responseObserver) {
+         String exerciseType = request.getExerciseType();
+         int durationMinutes = 60;
+         float caloriesBurned = 500;
+         int avgHeartRate = 130;
+         int maxHeartRate = 160;
+         ExerciseResponse response = ExerciseResponse.newBuilder()
+                 .setDurationMinutes(durationMinutes)
+                 .setCaloriesBurned(caloriesBurned)
+                 .setAvgHeartRate(avgHeartRate)
+                 .setMaxHeartRate(maxHeartRate)
+                 .build();
+         responseObserver.onNext(response);
+         responseObserver.onCompleted();
+     }
+	
 }

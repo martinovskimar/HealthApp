@@ -8,10 +8,18 @@ public interface MedicationRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   * <pre>
+   * The username of the patient.
+   * </pre>
+   *
    * <code>string username = 1;</code>
    */
   java.lang.String getUsername();
   /**
+   * <pre>
+   * The username of the patient.
+   * </pre>
+   *
    * <code>string username = 1;</code>
    */
   com.google.protobuf.ByteString

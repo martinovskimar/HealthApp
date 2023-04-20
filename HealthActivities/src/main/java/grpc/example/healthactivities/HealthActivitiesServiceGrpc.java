@@ -92,35 +92,35 @@ public final class HealthActivitiesServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<grpc.example.healthactivities.EmergencyRequest,
-      grpc.example.healthactivities.EmergencyResponse> getEmergencyCallMethod;
+      grpc.example.healthactivities.EmergencyResponse> getCallAmbulanceMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "EmergencyCall",
+      fullMethodName = SERVICE_NAME + '/' + "CallAmbulance",
       requestType = grpc.example.healthactivities.EmergencyRequest.class,
       responseType = grpc.example.healthactivities.EmergencyResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<grpc.example.healthactivities.EmergencyRequest,
-      grpc.example.healthactivities.EmergencyResponse> getEmergencyCallMethod() {
-    io.grpc.MethodDescriptor<grpc.example.healthactivities.EmergencyRequest, grpc.example.healthactivities.EmergencyResponse> getEmergencyCallMethod;
-    if ((getEmergencyCallMethod = HealthActivitiesServiceGrpc.getEmergencyCallMethod) == null) {
+      grpc.example.healthactivities.EmergencyResponse> getCallAmbulanceMethod() {
+    io.grpc.MethodDescriptor<grpc.example.healthactivities.EmergencyRequest, grpc.example.healthactivities.EmergencyResponse> getCallAmbulanceMethod;
+    if ((getCallAmbulanceMethod = HealthActivitiesServiceGrpc.getCallAmbulanceMethod) == null) {
       synchronized (HealthActivitiesServiceGrpc.class) {
-        if ((getEmergencyCallMethod = HealthActivitiesServiceGrpc.getEmergencyCallMethod) == null) {
-          HealthActivitiesServiceGrpc.getEmergencyCallMethod = getEmergencyCallMethod = 
+        if ((getCallAmbulanceMethod = HealthActivitiesServiceGrpc.getCallAmbulanceMethod) == null) {
+          HealthActivitiesServiceGrpc.getCallAmbulanceMethod = getCallAmbulanceMethod = 
               io.grpc.MethodDescriptor.<grpc.example.healthactivities.EmergencyRequest, grpc.example.healthactivities.EmergencyResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "health_activities.HealthActivitiesService", "EmergencyCall"))
+                  "health_activities.HealthActivitiesService", "CallAmbulance"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   grpc.example.healthactivities.EmergencyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   grpc.example.healthactivities.EmergencyResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new HealthActivitiesServiceMethodDescriptorSupplier("EmergencyCall"))
+                  .setSchemaDescriptor(new HealthActivitiesServiceMethodDescriptorSupplier("CallAmbulance"))
                   .build();
           }
         }
      }
-     return getEmergencyCallMethod;
+     return getCallAmbulanceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<grpc.example.healthactivities.MedicationRequest,
@@ -183,9 +183,6 @@ public final class HealthActivitiesServiceGrpc {
   public static abstract class HealthActivitiesServiceImplBase implements io.grpc.BindableService {
 
     /**
-     * <pre>
-     * Unary gRPC method to calculate exercise metrics.
-     * </pre>
      */
     public void exercise(grpc.example.healthactivities.ExerciseRequest request,
         io.grpc.stub.StreamObserver<grpc.example.healthactivities.ExerciseResponse> responseObserver) {
@@ -201,9 +198,9 @@ public final class HealthActivitiesServiceGrpc {
 
     /**
      */
-    public void emergencyCall(grpc.example.healthactivities.EmergencyRequest request,
+    public void callAmbulance(grpc.example.healthactivities.EmergencyRequest request,
         io.grpc.stub.StreamObserver<grpc.example.healthactivities.EmergencyResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getEmergencyCallMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getCallAmbulanceMethod(), responseObserver);
     }
 
     /**
@@ -230,12 +227,12 @@ public final class HealthActivitiesServiceGrpc {
                 grpc.example.healthactivities.NutritionResponse>(
                   this, METHODID_NUTRITION_INFORMATION)))
           .addMethod(
-            getEmergencyCallMethod(),
+            getCallAmbulanceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 grpc.example.healthactivities.EmergencyRequest,
                 grpc.example.healthactivities.EmergencyResponse>(
-                  this, METHODID_EMERGENCY_CALL)))
+                  this, METHODID_CALL_AMBULANCE)))
           .addMethod(
             getRemindMedicationMethod(),
             asyncServerStreamingCall(
@@ -266,9 +263,6 @@ public final class HealthActivitiesServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary gRPC method to calculate exercise metrics.
-     * </pre>
      */
     public void exercise(grpc.example.healthactivities.ExerciseRequest request,
         io.grpc.stub.StreamObserver<grpc.example.healthactivities.ExerciseResponse> responseObserver) {
@@ -286,10 +280,10 @@ public final class HealthActivitiesServiceGrpc {
 
     /**
      */
-    public void emergencyCall(grpc.example.healthactivities.EmergencyRequest request,
+    public void callAmbulance(grpc.example.healthactivities.EmergencyRequest request,
         io.grpc.stub.StreamObserver<grpc.example.healthactivities.EmergencyResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getEmergencyCallMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCallAmbulanceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -320,9 +314,6 @@ public final class HealthActivitiesServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary gRPC method to calculate exercise metrics.
-     * </pre>
      */
     public grpc.example.healthactivities.ExerciseResponse exercise(grpc.example.healthactivities.ExerciseRequest request) {
       return blockingUnaryCall(
@@ -331,9 +322,9 @@ public final class HealthActivitiesServiceGrpc {
 
     /**
      */
-    public grpc.example.healthactivities.EmergencyResponse emergencyCall(grpc.example.healthactivities.EmergencyRequest request) {
+    public grpc.example.healthactivities.EmergencyResponse callAmbulance(grpc.example.healthactivities.EmergencyRequest request) {
       return blockingUnaryCall(
-          getChannel(), getEmergencyCallMethod(), getCallOptions(), request);
+          getChannel(), getCallAmbulanceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -364,9 +355,6 @@ public final class HealthActivitiesServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary gRPC method to calculate exercise metrics.
-     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<grpc.example.healthactivities.ExerciseResponse> exercise(
         grpc.example.healthactivities.ExerciseRequest request) {
@@ -376,15 +364,15 @@ public final class HealthActivitiesServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<grpc.example.healthactivities.EmergencyResponse> emergencyCall(
+    public com.google.common.util.concurrent.ListenableFuture<grpc.example.healthactivities.EmergencyResponse> callAmbulance(
         grpc.example.healthactivities.EmergencyRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getEmergencyCallMethod(), getCallOptions()), request);
+          getChannel().newCall(getCallAmbulanceMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_EXERCISE = 0;
-  private static final int METHODID_EMERGENCY_CALL = 1;
+  private static final int METHODID_CALL_AMBULANCE = 1;
   private static final int METHODID_REMIND_MEDICATION = 2;
   private static final int METHODID_NUTRITION_INFORMATION = 3;
 
@@ -409,8 +397,8 @@ public final class HealthActivitiesServiceGrpc {
           serviceImpl.exercise((grpc.example.healthactivities.ExerciseRequest) request,
               (io.grpc.stub.StreamObserver<grpc.example.healthactivities.ExerciseResponse>) responseObserver);
           break;
-        case METHODID_EMERGENCY_CALL:
-          serviceImpl.emergencyCall((grpc.example.healthactivities.EmergencyRequest) request,
+        case METHODID_CALL_AMBULANCE:
+          serviceImpl.callAmbulance((grpc.example.healthactivities.EmergencyRequest) request,
               (io.grpc.stub.StreamObserver<grpc.example.healthactivities.EmergencyResponse>) responseObserver);
           break;
         case METHODID_REMIND_MEDICATION:
@@ -483,7 +471,7 @@ public final class HealthActivitiesServiceGrpc {
               .setSchemaDescriptor(new HealthActivitiesServiceFileDescriptorSupplier())
               .addMethod(getExerciseMethod())
               .addMethod(getNutritionInformationMethod())
-              .addMethod(getEmergencyCallMethod())
+              .addMethod(getCallAmbulanceMethod())
               .addMethod(getRemindMedicationMethod())
               .build();
         }

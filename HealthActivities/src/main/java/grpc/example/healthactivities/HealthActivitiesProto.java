@@ -25,21 +25,6 @@ public final class HealthActivitiesProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_health_activities_ExerciseResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_health_activities_ExerciseResponse_HeartRateZone_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_health_activities_HeartRateZone_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_health_activities_HeartRateZone_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_health_activities_HeartRateZones_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_health_activities_HeartRateZones_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_health_activities_NutritionRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -79,51 +64,30 @@ public final class HealthActivitiesProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\026healthActivities.proto\022\021health_activit" +
-      "ies\032\037google/protobuf/timestamp.proto\"\254\001\n" +
-      "\017ExerciseRequest\022K\n\020type_of_exercise\030\001 \001" +
-      "(\01621.health_activities.ExerciseRequest.T" +
-      "ypeOfExercise\"L\n\016TypeOfExercise\022\013\n\007RUNNI" +
-      "NG\020\000\022\013\n\007CYCLING\020\001\022\014\n\010SWIMMING\020\002\022\022\n\016WEIGH" +
-      "T_LIFTING\020\003\"\210\002\n\020ExerciseResponse\022\020\n\010dura" +
-      "tion\030\001 \001(\005\022\026\n\016total_calories\030\002 \001(\005\022K\n\020he" +
-      "art_rate_zones\030\003 \003(\01321.health_activities" +
-      ".ExerciseResponse.HeartRateZone\022\032\n\022avera" +
-      "ge_heart_rate\030\004 \001(\005\022\026\n\016max_heart_rate\030\005 " +
-      "\001(\005\022\026\n\016calories_spent\030\006 \001(\005\0321\n\rHeartRate" +
-      "Zone\022\017\n\007min_bpm\030\001 \001(\005\022\017\n\007max_bpm\030\002 \001(\005\"1" +
-      "\n\rHeartRateZone\022\017\n\007min_bpm\030\001 \001(\005\022\017\n\007max_" +
-      "bpm\030\002 \001(\005\"\236\002\n\016HeartRateZones\0227\n\rlow_inte" +
-      "nsity\030\001 \001(\0132 .health_activities.HeartRat" +
-      "eZone\0228\n\016weight_control\030\002 \001(\0132 .health_a" +
-      "ctivities.HeartRateZone\0221\n\007aerobic\030\003 \001(\013" +
-      "2 .health_activities.HeartRateZone\0223\n\tan" +
-      "aerobic\030\004 \001(\0132 .health_activities.HeartR" +
-      "ateZone\0221\n\007maximum\030\005 \001(\0132 .health_activi" +
-      "ties.HeartRateZone\"9\n\020NutritionRequest\022\014" +
-      "\n\004meal\030\001 \001(\t\022\027\n\017calories_intake\030\002 \001(\005\"\210\001" +
-      "\n\021NutritionResponse\022\035\n\025total_calories_in" +
-      "take\030\001 \001(\005\022\030\n\020calories_balance\030\002 \001(\005\022:\n\017" +
-      "calories_status\030\003 \001(\0162!.health_activitie" +
-      "s.CaloriesStatus\"$\n\020EmergencyRequest\022\020\n\010" +
-      "username\030\001 \001(\t\"+\n\021EmergencyResponse\022\026\n\016c" +
-      "all_ambulance\030\001 \001(\010\"%\n\021MedicationRequest" +
-      "\022\020\n\010username\030\001 \001(\t\"q\n\022MedicationReminder" +
-      "\022\027\n\017medication_name\030\001 \001(\t\022\017\n\007message\030\002 \001" +
-      "(\t\0221\n\rreminder_time\030\003 \001(\0132\032.google.proto" +
-      "buf.Timestamp*:\n\016CaloriesStatus\022\023\n\017CALOR" +
-      "IE_SURPLUS\020\000\022\023\n\017CALORIE_DEFICIT\020\0012\232\003\n\027He" +
-      "althActivitiesService\022U\n\010Exercise\022\".heal" +
-      "th_activities.ExerciseRequest\032#.health_a" +
-      "ctivities.ExerciseResponse\"\000\022e\n\024Nutritio" +
-      "nInformation\022#.health_activities.Nutriti" +
-      "onRequest\032$.health_activities.NutritionR" +
-      "esponse\"\000(\001\022\\\n\rEmergencyCall\022#.health_ac" +
-      "tivities.EmergencyRequest\032$.health_activ" +
-      "ities.EmergencyResponse\"\000\022c\n\020RemindMedic" +
-      "ation\022$.health_activities.MedicationRequ" +
-      "est\032%.health_activities.MedicationRemind" +
-      "er\"\0000\001B8\n\035grpc.example.healthactivitiesB" +
-      "\025HealthActivitiesProtoP\001b\006proto3"
+      "ies\"(\n\017ExerciseRequest\022\025\n\rexercise_type\030" +
+      "\001 \001(\t\"u\n\020ExerciseResponse\022\030\n\020duration_mi" +
+      "nutes\030\001 \001(\005\022\027\n\017calories_burned\030\002 \001(\002\022\026\n\016" +
+      "avg_heart_rate\030\003 \001(\005\022\026\n\016max_heart_rate\030\004" +
+      " \001(\005\"9\n\020NutritionRequest\022\014\n\004meal\030\001 \001(\t\022\027" +
+      "\n\017calories_intake\030\002 \001(\005\"N\n\021NutritionResp" +
+      "onse\022\035\n\025total_calories_intake\030\001 \001(\005\022\032\n\022i" +
+      "s_caloric_surplus\030\002 \001(\010\"$\n\020EmergencyRequ" +
+      "est\022\020\n\010username\030\001 \001(\t\"+\n\021EmergencyRespon" +
+      "se\022\026\n\016call_ambulance\030\001 \001(\010\"%\n\021Medication" +
+      "Request\022\020\n\010username\030\001 \001(\t\"6\n\022MedicationR" +
+      "eminder\022\014\n\004time\030\001 \001(\t\022\022\n\nmedication\030\002 \001(" +
+      "\t2\232\003\n\027HealthActivitiesService\022U\n\010Exercis" +
+      "e\022\".health_activities.ExerciseRequest\032#." +
+      "health_activities.ExerciseResponse\"\000\022e\n\024" +
+      "NutritionInformation\022#.health_activities" +
+      ".NutritionRequest\032$.health_activities.Nu" +
+      "tritionResponse\"\000(\001\022\\\n\rCallAmbulance\022#.h" +
+      "ealth_activities.EmergencyRequest\032$.heal" +
+      "th_activities.EmergencyResponse\"\000\022c\n\020Rem" +
+      "indMedication\022$.health_activities.Medica" +
+      "tionRequest\032%.health_activities.Medicati" +
+      "onReminder\"\0000\001B8\n\035grpc.example.healthact" +
+      "ivitiesB\025HealthActivitiesProtoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -136,75 +100,55 @@ public final class HealthActivitiesProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.google.protobuf.TimestampProto.getDescriptor(),
         }, assigner);
     internal_static_health_activities_ExerciseRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_health_activities_ExerciseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_ExerciseRequest_descriptor,
-        new java.lang.String[] { "TypeOfExercise", });
+        new java.lang.String[] { "ExerciseType", });
     internal_static_health_activities_ExerciseResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_health_activities_ExerciseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_ExerciseResponse_descriptor,
-        new java.lang.String[] { "Duration", "TotalCalories", "HeartRateZones", "AverageHeartRate", "MaxHeartRate", "CaloriesSpent", });
-    internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor =
-      internal_static_health_activities_ExerciseResponse_descriptor.getNestedTypes().get(0);
-    internal_static_health_activities_ExerciseResponse_HeartRateZone_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor,
-        new java.lang.String[] { "MinBpm", "MaxBpm", });
-    internal_static_health_activities_HeartRateZone_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_health_activities_HeartRateZone_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_health_activities_HeartRateZone_descriptor,
-        new java.lang.String[] { "MinBpm", "MaxBpm", });
-    internal_static_health_activities_HeartRateZones_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_health_activities_HeartRateZones_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_health_activities_HeartRateZones_descriptor,
-        new java.lang.String[] { "LowIntensity", "WeightControl", "Aerobic", "Anaerobic", "Maximum", });
+        new java.lang.String[] { "DurationMinutes", "CaloriesBurned", "AvgHeartRate", "MaxHeartRate", });
     internal_static_health_activities_NutritionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_health_activities_NutritionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_NutritionRequest_descriptor,
         new java.lang.String[] { "Meal", "CaloriesIntake", });
     internal_static_health_activities_NutritionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_health_activities_NutritionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_NutritionResponse_descriptor,
-        new java.lang.String[] { "TotalCaloriesIntake", "CaloriesBalance", "CaloriesStatus", });
+        new java.lang.String[] { "TotalCaloriesIntake", "IsCaloricSurplus", });
     internal_static_health_activities_EmergencyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_health_activities_EmergencyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_EmergencyRequest_descriptor,
         new java.lang.String[] { "Username", });
     internal_static_health_activities_EmergencyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_health_activities_EmergencyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_EmergencyResponse_descriptor,
         new java.lang.String[] { "CallAmbulance", });
     internal_static_health_activities_MedicationRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_health_activities_MedicationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_MedicationRequest_descriptor,
         new java.lang.String[] { "Username", });
     internal_static_health_activities_MedicationReminder_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_health_activities_MedicationReminder_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_health_activities_MedicationReminder_descriptor,
-        new java.lang.String[] { "MedicationName", "Message", "ReminderTime", });
-    com.google.protobuf.TimestampProto.getDescriptor();
+        new java.lang.String[] { "Time", "Medication", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

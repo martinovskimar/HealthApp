@@ -2,60 +2,32 @@ syntax = "proto3";
 
 package health_activities;
 
-import "google/protobuf/timestamp.proto";
-
 option java_multiple_files = true;
 option java_package = "grpc.example.healthactivities";
 option java_outer_classname = "HealthActivitiesProto";
 
 service HealthActivitiesService {
-  // Unary gRPC method to calculate exercise metrics.
   rpc Exercise(ExerciseRequest) returns (ExerciseResponse) {}
   rpc NutritionInformation (stream NutritionRequest) returns (NutritionResponse) {}
-  rpc EmergencyCall (EmergencyRequest) returns (EmergencyResponse) {}
+  rpc CallAmbulance (EmergencyRequest) returns (EmergencyResponse) {}
   rpc RemindMedication (MedicationRequest) returns (stream MedicationReminder) {}
 }
 
-// Request message for the Exercise method.
+
 message ExerciseRequest {
-  enum TypeOfExercise {
-    RUNNING = 0;
-    CYCLING = 1;
-    SWIMMING = 2;
-    WEIGHT_LIFTING = 3;
-  }
-
-  TypeOfExercise type_of_exercise = 1;
+  
+  string exercise_type = 1;
 }
 
-// Response message for the Exercise method.
 message ExerciseResponse {
-  message HeartRateZone {
-    int32 min_bpm = 1;
-    int32 max_bpm = 2;
-  }
-
-  int32 duration = 1;
-  int32 total_calories = 2;
-  repeated HeartRateZone heart_rate_zones = 3;
-  int32 average_heart_rate = 4;
-  int32 max_heart_rate = 5;
-  int32 calories_spent = 6;
-}
-
-// Predefined heart rate zones.
-message HeartRateZone {
-  int32 min_bpm = 1;
-  int32 max_bpm = 2;
-}
-
-// Predefined heart rate zones.
-message HeartRateZones {
-  HeartRateZone low_intensity = 1;
-  HeartRateZone weight_control = 2;
-  HeartRateZone aerobic = 3;
-  HeartRateZone anaerobic = 4;
-  HeartRateZone maximum = 5;
+  // The duration of the exercise in minutes
+  int32 duration_minutes = 1;
+  // The total number of calories burned during the exercise
+  float calories_burned = 2;
+  // The average heart rate during the exercise
+  int32 avg_heart_rate = 3;
+  // The maximum heart rate achieved during the exercise
+  int32 max_heart_rate = 4;
 }
 
 message NutritionRequest {
@@ -65,13 +37,7 @@ message NutritionRequest {
 
 message NutritionResponse {
   int32 total_calories_intake = 1;
-  int32 calories_balance = 2;
-  CaloriesStatus calories_status = 3;
-}
-
-enum CaloriesStatus {
-  CALORIE_SURPLUS = 0;
-  CALORIE_DEFICIT = 1;
+  bool is_caloric_surplus = 2;
 }
 
 message EmergencyRequest {
@@ -83,11 +49,13 @@ message EmergencyResponse {
 }
 
 message MedicationRequest {
-  string username = 1;
+    // The username of the patient.
+    string username = 1;
 }
 
 message MedicationReminder {
-  string medication_name = 1;
-  string message = 2;
-  google.protobuf.Timestamp reminder_time = 3;
+    // The time of the medication reminder.
+    string time = 1;
+    // The name of the medication.
+    string medication = 2;
 }

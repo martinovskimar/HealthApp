@@ -4,10 +4,6 @@
 package grpc.example.healthactivities;
 
 /**
- * <pre>
- * Response message for the Exercise method.
- * </pre>
- *
  * Protobuf type {@code health_activities.ExerciseResponse}
  */
 public  final class ExerciseResponse extends
@@ -20,12 +16,10 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private ExerciseResponse() {
-    duration_ = 0;
-    totalCalories_ = 0;
-    heartRateZones_ = java.util.Collections.emptyList();
-    averageHeartRate_ = 0;
+    durationMinutes_ = 0;
+    caloriesBurned_ = 0F;
+    avgHeartRate_ = 0;
     maxHeartRate_ = 0;
-    caloriesSpent_ = 0;
   }
 
   @java.lang.Override
@@ -54,36 +48,22 @@ private static final long serialVersionUID = 0L;
             break;
           case 8: {
 
-            duration_ = input.readInt32();
+            durationMinutes_ = input.readInt32();
             break;
           }
-          case 16: {
+          case 21: {
 
-            totalCalories_ = input.readInt32();
+            caloriesBurned_ = input.readFloat();
             break;
           }
-          case 26: {
-            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-              heartRateZones_ = new java.util.ArrayList<grpc.example.healthactivities.ExerciseResponse.HeartRateZone>();
-              mutable_bitField0_ |= 0x00000004;
-            }
-            heartRateZones_.add(
-                input.readMessage(grpc.example.healthactivities.ExerciseResponse.HeartRateZone.parser(), extensionRegistry));
+          case 24: {
+
+            avgHeartRate_ = input.readInt32();
             break;
           }
           case 32: {
 
-            averageHeartRate_ = input.readInt32();
-            break;
-          }
-          case 40: {
-
             maxHeartRate_ = input.readInt32();
-            break;
-          }
-          case 48: {
-
-            caloriesSpent_ = input.readInt32();
             break;
           }
           default: {
@@ -101,9 +81,6 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-        heartRateZones_ = java.util.Collections.unmodifiableList(heartRateZones_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -121,624 +98,56 @@ private static final long serialVersionUID = 0L;
             grpc.example.healthactivities.ExerciseResponse.class, grpc.example.healthactivities.ExerciseResponse.Builder.class);
   }
 
-  public interface HeartRateZoneOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:health_activities.ExerciseResponse.HeartRateZone)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 min_bpm = 1;</code>
-     */
-    int getMinBpm();
-
-    /**
-     * <code>int32 max_bpm = 2;</code>
-     */
-    int getMaxBpm();
-  }
+  public static final int DURATION_MINUTES_FIELD_NUMBER = 1;
+  private int durationMinutes_;
   /**
-   * Protobuf type {@code health_activities.ExerciseResponse.HeartRateZone}
+   * <pre>
+   * The duration of the exercise in minutes
+   * </pre>
+   *
+   * <code>int32 duration_minutes = 1;</code>
    */
-  public  static final class HeartRateZone extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:health_activities.ExerciseResponse.HeartRateZone)
-      HeartRateZoneOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use HeartRateZone.newBuilder() to construct.
-    private HeartRateZone(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private HeartRateZone() {
-      minBpm_ = 0;
-      maxBpm_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private HeartRateZone(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              minBpm_ = input.readInt32();
-              break;
-            }
-            case 16: {
-
-              maxBpm_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return grpc.example.healthactivities.HealthActivitiesProto.internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return grpc.example.healthactivities.HealthActivitiesProto.internal_static_health_activities_ExerciseResponse_HeartRateZone_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              grpc.example.healthactivities.ExerciseResponse.HeartRateZone.class, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder.class);
-    }
-
-    public static final int MIN_BPM_FIELD_NUMBER = 1;
-    private int minBpm_;
-    /**
-     * <code>int32 min_bpm = 1;</code>
-     */
-    public int getMinBpm() {
-      return minBpm_;
-    }
-
-    public static final int MAX_BPM_FIELD_NUMBER = 2;
-    private int maxBpm_;
-    /**
-     * <code>int32 max_bpm = 2;</code>
-     */
-    public int getMaxBpm() {
-      return maxBpm_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (minBpm_ != 0) {
-        output.writeInt32(1, minBpm_);
-      }
-      if (maxBpm_ != 0) {
-        output.writeInt32(2, maxBpm_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (minBpm_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, minBpm_);
-      }
-      if (maxBpm_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, maxBpm_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof grpc.example.healthactivities.ExerciseResponse.HeartRateZone)) {
-        return super.equals(obj);
-      }
-      grpc.example.healthactivities.ExerciseResponse.HeartRateZone other = (grpc.example.healthactivities.ExerciseResponse.HeartRateZone) obj;
-
-      boolean result = true;
-      result = result && (getMinBpm()
-          == other.getMinBpm());
-      result = result && (getMaxBpm()
-          == other.getMaxBpm());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + MIN_BPM_FIELD_NUMBER;
-      hash = (53 * hash) + getMinBpm();
-      hash = (37 * hash) + MAX_BPM_FIELD_NUMBER;
-      hash = (53 * hash) + getMaxBpm();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(grpc.example.healthactivities.ExerciseResponse.HeartRateZone prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code health_activities.ExerciseResponse.HeartRateZone}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:health_activities.ExerciseResponse.HeartRateZone)
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return grpc.example.healthactivities.HealthActivitiesProto.internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return grpc.example.healthactivities.HealthActivitiesProto.internal_static_health_activities_ExerciseResponse_HeartRateZone_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                grpc.example.healthactivities.ExerciseResponse.HeartRateZone.class, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder.class);
-      }
-
-      // Construct using grpc.example.healthactivities.ExerciseResponse.HeartRateZone.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        minBpm_ = 0;
-
-        maxBpm_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return grpc.example.healthactivities.HealthActivitiesProto.internal_static_health_activities_ExerciseResponse_HeartRateZone_descriptor;
-      }
-
-      @java.lang.Override
-      public grpc.example.healthactivities.ExerciseResponse.HeartRateZone getDefaultInstanceForType() {
-        return grpc.example.healthactivities.ExerciseResponse.HeartRateZone.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public grpc.example.healthactivities.ExerciseResponse.HeartRateZone build() {
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public grpc.example.healthactivities.ExerciseResponse.HeartRateZone buildPartial() {
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone result = new grpc.example.healthactivities.ExerciseResponse.HeartRateZone(this);
-        result.minBpm_ = minBpm_;
-        result.maxBpm_ = maxBpm_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof grpc.example.healthactivities.ExerciseResponse.HeartRateZone) {
-          return mergeFrom((grpc.example.healthactivities.ExerciseResponse.HeartRateZone)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(grpc.example.healthactivities.ExerciseResponse.HeartRateZone other) {
-        if (other == grpc.example.healthactivities.ExerciseResponse.HeartRateZone.getDefaultInstance()) return this;
-        if (other.getMinBpm() != 0) {
-          setMinBpm(other.getMinBpm());
-        }
-        if (other.getMaxBpm() != 0) {
-          setMaxBpm(other.getMaxBpm());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (grpc.example.healthactivities.ExerciseResponse.HeartRateZone) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private int minBpm_ ;
-      /**
-       * <code>int32 min_bpm = 1;</code>
-       */
-      public int getMinBpm() {
-        return minBpm_;
-      }
-      /**
-       * <code>int32 min_bpm = 1;</code>
-       */
-      public Builder setMinBpm(int value) {
-        
-        minBpm_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 min_bpm = 1;</code>
-       */
-      public Builder clearMinBpm() {
-        
-        minBpm_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int maxBpm_ ;
-      /**
-       * <code>int32 max_bpm = 2;</code>
-       */
-      public int getMaxBpm() {
-        return maxBpm_;
-      }
-      /**
-       * <code>int32 max_bpm = 2;</code>
-       */
-      public Builder setMaxBpm(int value) {
-        
-        maxBpm_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 max_bpm = 2;</code>
-       */
-      public Builder clearMaxBpm() {
-        
-        maxBpm_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:health_activities.ExerciseResponse.HeartRateZone)
-    }
-
-    // @@protoc_insertion_point(class_scope:health_activities.ExerciseResponse.HeartRateZone)
-    private static final grpc.example.healthactivities.ExerciseResponse.HeartRateZone DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new grpc.example.healthactivities.ExerciseResponse.HeartRateZone();
-    }
-
-    public static grpc.example.healthactivities.ExerciseResponse.HeartRateZone getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<HeartRateZone>
-        PARSER = new com.google.protobuf.AbstractParser<HeartRateZone>() {
-      @java.lang.Override
-      public HeartRateZone parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new HeartRateZone(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<HeartRateZone> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<HeartRateZone> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZone getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+  public int getDurationMinutes() {
+    return durationMinutes_;
   }
 
-  private int bitField0_;
-  public static final int DURATION_FIELD_NUMBER = 1;
-  private int duration_;
+  public static final int CALORIES_BURNED_FIELD_NUMBER = 2;
+  private float caloriesBurned_;
   /**
-   * <code>int32 duration = 1;</code>
+   * <pre>
+   * The total number of calories burned during the exercise
+   * </pre>
+   *
+   * <code>float calories_burned = 2;</code>
    */
-  public int getDuration() {
-    return duration_;
+  public float getCaloriesBurned() {
+    return caloriesBurned_;
   }
 
-  public static final int TOTAL_CALORIES_FIELD_NUMBER = 2;
-  private int totalCalories_;
+  public static final int AVG_HEART_RATE_FIELD_NUMBER = 3;
+  private int avgHeartRate_;
   /**
-   * <code>int32 total_calories = 2;</code>
+   * <pre>
+   * The average heart rate during the exercise
+   * </pre>
+   *
+   * <code>int32 avg_heart_rate = 3;</code>
    */
-  public int getTotalCalories() {
-    return totalCalories_;
+  public int getAvgHeartRate() {
+    return avgHeartRate_;
   }
 
-  public static final int HEART_RATE_ZONES_FIELD_NUMBER = 3;
-  private java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone> heartRateZones_;
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  public java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone> getHeartRateZonesList() {
-    return heartRateZones_;
-  }
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  public java.util.List<? extends grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder> 
-      getHeartRateZonesOrBuilderList() {
-    return heartRateZones_;
-  }
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  public int getHeartRateZonesCount() {
-    return heartRateZones_.size();
-  }
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  public grpc.example.healthactivities.ExerciseResponse.HeartRateZone getHeartRateZones(int index) {
-    return heartRateZones_.get(index);
-  }
-  /**
-   * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-   */
-  public grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder getHeartRateZonesOrBuilder(
-      int index) {
-    return heartRateZones_.get(index);
-  }
-
-  public static final int AVERAGE_HEART_RATE_FIELD_NUMBER = 4;
-  private int averageHeartRate_;
-  /**
-   * <code>int32 average_heart_rate = 4;</code>
-   */
-  public int getAverageHeartRate() {
-    return averageHeartRate_;
-  }
-
-  public static final int MAX_HEART_RATE_FIELD_NUMBER = 5;
+  public static final int MAX_HEART_RATE_FIELD_NUMBER = 4;
   private int maxHeartRate_;
   /**
-   * <code>int32 max_heart_rate = 5;</code>
+   * <pre>
+   * The maximum heart rate achieved during the exercise
+   * </pre>
+   *
+   * <code>int32 max_heart_rate = 4;</code>
    */
   public int getMaxHeartRate() {
     return maxHeartRate_;
-  }
-
-  public static final int CALORIES_SPENT_FIELD_NUMBER = 6;
-  private int caloriesSpent_;
-  /**
-   * <code>int32 calories_spent = 6;</code>
-   */
-  public int getCaloriesSpent() {
-    return caloriesSpent_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -755,23 +164,17 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (duration_ != 0) {
-      output.writeInt32(1, duration_);
+    if (durationMinutes_ != 0) {
+      output.writeInt32(1, durationMinutes_);
     }
-    if (totalCalories_ != 0) {
-      output.writeInt32(2, totalCalories_);
+    if (caloriesBurned_ != 0F) {
+      output.writeFloat(2, caloriesBurned_);
     }
-    for (int i = 0; i < heartRateZones_.size(); i++) {
-      output.writeMessage(3, heartRateZones_.get(i));
-    }
-    if (averageHeartRate_ != 0) {
-      output.writeInt32(4, averageHeartRate_);
+    if (avgHeartRate_ != 0) {
+      output.writeInt32(3, avgHeartRate_);
     }
     if (maxHeartRate_ != 0) {
-      output.writeInt32(5, maxHeartRate_);
-    }
-    if (caloriesSpent_ != 0) {
-      output.writeInt32(6, caloriesSpent_);
+      output.writeInt32(4, maxHeartRate_);
     }
     unknownFields.writeTo(output);
   }
@@ -782,29 +185,21 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (duration_ != 0) {
+    if (durationMinutes_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, duration_);
+        .computeInt32Size(1, durationMinutes_);
     }
-    if (totalCalories_ != 0) {
+    if (caloriesBurned_ != 0F) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, totalCalories_);
+        .computeFloatSize(2, caloriesBurned_);
     }
-    for (int i = 0; i < heartRateZones_.size(); i++) {
+    if (avgHeartRate_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, heartRateZones_.get(i));
-    }
-    if (averageHeartRate_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(4, averageHeartRate_);
+        .computeInt32Size(3, avgHeartRate_);
     }
     if (maxHeartRate_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(5, maxHeartRate_);
-    }
-    if (caloriesSpent_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(6, caloriesSpent_);
+        .computeInt32Size(4, maxHeartRate_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -822,18 +217,16 @@ private static final long serialVersionUID = 0L;
     grpc.example.healthactivities.ExerciseResponse other = (grpc.example.healthactivities.ExerciseResponse) obj;
 
     boolean result = true;
-    result = result && (getDuration()
-        == other.getDuration());
-    result = result && (getTotalCalories()
-        == other.getTotalCalories());
-    result = result && getHeartRateZonesList()
-        .equals(other.getHeartRateZonesList());
-    result = result && (getAverageHeartRate()
-        == other.getAverageHeartRate());
+    result = result && (getDurationMinutes()
+        == other.getDurationMinutes());
+    result = result && (
+        java.lang.Float.floatToIntBits(getCaloriesBurned())
+        == java.lang.Float.floatToIntBits(
+            other.getCaloriesBurned()));
+    result = result && (getAvgHeartRate()
+        == other.getAvgHeartRate());
     result = result && (getMaxHeartRate()
         == other.getMaxHeartRate());
-    result = result && (getCaloriesSpent()
-        == other.getCaloriesSpent());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -845,20 +238,15 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + DURATION_FIELD_NUMBER;
-    hash = (53 * hash) + getDuration();
-    hash = (37 * hash) + TOTAL_CALORIES_FIELD_NUMBER;
-    hash = (53 * hash) + getTotalCalories();
-    if (getHeartRateZonesCount() > 0) {
-      hash = (37 * hash) + HEART_RATE_ZONES_FIELD_NUMBER;
-      hash = (53 * hash) + getHeartRateZonesList().hashCode();
-    }
-    hash = (37 * hash) + AVERAGE_HEART_RATE_FIELD_NUMBER;
-    hash = (53 * hash) + getAverageHeartRate();
+    hash = (37 * hash) + DURATION_MINUTES_FIELD_NUMBER;
+    hash = (53 * hash) + getDurationMinutes();
+    hash = (37 * hash) + CALORIES_BURNED_FIELD_NUMBER;
+    hash = (53 * hash) + java.lang.Float.floatToIntBits(
+        getCaloriesBurned());
+    hash = (37 * hash) + AVG_HEART_RATE_FIELD_NUMBER;
+    hash = (53 * hash) + getAvgHeartRate();
     hash = (37 * hash) + MAX_HEART_RATE_FIELD_NUMBER;
     hash = (53 * hash) + getMaxHeartRate();
-    hash = (37 * hash) + CALORIES_SPENT_FIELD_NUMBER;
-    hash = (53 * hash) + getCaloriesSpent();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -955,10 +343,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Response message for the Exercise method.
-   * </pre>
-   *
    * Protobuf type {@code health_activities.ExerciseResponse}
    */
   public static final class Builder extends
@@ -991,27 +375,18 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getHeartRateZonesFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      duration_ = 0;
+      durationMinutes_ = 0;
 
-      totalCalories_ = 0;
+      caloriesBurned_ = 0F;
 
-      if (heartRateZonesBuilder_ == null) {
-        heartRateZones_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-      } else {
-        heartRateZonesBuilder_.clear();
-      }
-      averageHeartRate_ = 0;
+      avgHeartRate_ = 0;
 
       maxHeartRate_ = 0;
-
-      caloriesSpent_ = 0;
 
       return this;
     }
@@ -1039,23 +414,10 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public grpc.example.healthactivities.ExerciseResponse buildPartial() {
       grpc.example.healthactivities.ExerciseResponse result = new grpc.example.healthactivities.ExerciseResponse(this);
-      int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
-      result.duration_ = duration_;
-      result.totalCalories_ = totalCalories_;
-      if (heartRateZonesBuilder_ == null) {
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          heartRateZones_ = java.util.Collections.unmodifiableList(heartRateZones_);
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.heartRateZones_ = heartRateZones_;
-      } else {
-        result.heartRateZones_ = heartRateZonesBuilder_.build();
-      }
-      result.averageHeartRate_ = averageHeartRate_;
+      result.durationMinutes_ = durationMinutes_;
+      result.caloriesBurned_ = caloriesBurned_;
+      result.avgHeartRate_ = avgHeartRate_;
       result.maxHeartRate_ = maxHeartRate_;
-      result.caloriesSpent_ = caloriesSpent_;
-      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -1104,46 +466,17 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.example.healthactivities.ExerciseResponse other) {
       if (other == grpc.example.healthactivities.ExerciseResponse.getDefaultInstance()) return this;
-      if (other.getDuration() != 0) {
-        setDuration(other.getDuration());
+      if (other.getDurationMinutes() != 0) {
+        setDurationMinutes(other.getDurationMinutes());
       }
-      if (other.getTotalCalories() != 0) {
-        setTotalCalories(other.getTotalCalories());
+      if (other.getCaloriesBurned() != 0F) {
+        setCaloriesBurned(other.getCaloriesBurned());
       }
-      if (heartRateZonesBuilder_ == null) {
-        if (!other.heartRateZones_.isEmpty()) {
-          if (heartRateZones_.isEmpty()) {
-            heartRateZones_ = other.heartRateZones_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureHeartRateZonesIsMutable();
-            heartRateZones_.addAll(other.heartRateZones_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.heartRateZones_.isEmpty()) {
-          if (heartRateZonesBuilder_.isEmpty()) {
-            heartRateZonesBuilder_.dispose();
-            heartRateZonesBuilder_ = null;
-            heartRateZones_ = other.heartRateZones_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-            heartRateZonesBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getHeartRateZonesFieldBuilder() : null;
-          } else {
-            heartRateZonesBuilder_.addAllMessages(other.heartRateZones_);
-          }
-        }
-      }
-      if (other.getAverageHeartRate() != 0) {
-        setAverageHeartRate(other.getAverageHeartRate());
+      if (other.getAvgHeartRate() != 0) {
+        setAvgHeartRate(other.getAvgHeartRate());
       }
       if (other.getMaxHeartRate() != 0) {
         setMaxHeartRate(other.getMaxHeartRate());
-      }
-      if (other.getCaloriesSpent() != 0) {
-        setCaloriesSpent(other.getCaloriesSpent());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -1173,335 +506,138 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
-    private int duration_ ;
+    private int durationMinutes_ ;
     /**
-     * <code>int32 duration = 1;</code>
+     * <pre>
+     * The duration of the exercise in minutes
+     * </pre>
+     *
+     * <code>int32 duration_minutes = 1;</code>
      */
-    public int getDuration() {
-      return duration_;
+    public int getDurationMinutes() {
+      return durationMinutes_;
     }
     /**
-     * <code>int32 duration = 1;</code>
+     * <pre>
+     * The duration of the exercise in minutes
+     * </pre>
+     *
+     * <code>int32 duration_minutes = 1;</code>
      */
-    public Builder setDuration(int value) {
+    public Builder setDurationMinutes(int value) {
       
-      duration_ = value;
+      durationMinutes_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 duration = 1;</code>
+     * <pre>
+     * The duration of the exercise in minutes
+     * </pre>
+     *
+     * <code>int32 duration_minutes = 1;</code>
      */
-    public Builder clearDuration() {
+    public Builder clearDurationMinutes() {
       
-      duration_ = 0;
+      durationMinutes_ = 0;
       onChanged();
       return this;
     }
 
-    private int totalCalories_ ;
+    private float caloriesBurned_ ;
     /**
-     * <code>int32 total_calories = 2;</code>
+     * <pre>
+     * The total number of calories burned during the exercise
+     * </pre>
+     *
+     * <code>float calories_burned = 2;</code>
      */
-    public int getTotalCalories() {
-      return totalCalories_;
+    public float getCaloriesBurned() {
+      return caloriesBurned_;
     }
     /**
-     * <code>int32 total_calories = 2;</code>
+     * <pre>
+     * The total number of calories burned during the exercise
+     * </pre>
+     *
+     * <code>float calories_burned = 2;</code>
      */
-    public Builder setTotalCalories(int value) {
+    public Builder setCaloriesBurned(float value) {
       
-      totalCalories_ = value;
+      caloriesBurned_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 total_calories = 2;</code>
+     * <pre>
+     * The total number of calories burned during the exercise
+     * </pre>
+     *
+     * <code>float calories_burned = 2;</code>
      */
-    public Builder clearTotalCalories() {
+    public Builder clearCaloriesBurned() {
       
-      totalCalories_ = 0;
+      caloriesBurned_ = 0F;
       onChanged();
       return this;
     }
 
-    private java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone> heartRateZones_ =
-      java.util.Collections.emptyList();
-    private void ensureHeartRateZonesIsMutable() {
-      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-        heartRateZones_ = new java.util.ArrayList<grpc.example.healthactivities.ExerciseResponse.HeartRateZone>(heartRateZones_);
-        bitField0_ |= 0x00000004;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder, grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder> heartRateZonesBuilder_;
-
+    private int avgHeartRate_ ;
     /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
+     * <pre>
+     * The average heart rate during the exercise
+     * </pre>
+     *
+     * <code>int32 avg_heart_rate = 3;</code>
      */
-    public java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone> getHeartRateZonesList() {
-      if (heartRateZonesBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(heartRateZones_);
-      } else {
-        return heartRateZonesBuilder_.getMessageList();
-      }
+    public int getAvgHeartRate() {
+      return avgHeartRate_;
     }
     /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
+     * <pre>
+     * The average heart rate during the exercise
+     * </pre>
+     *
+     * <code>int32 avg_heart_rate = 3;</code>
      */
-    public int getHeartRateZonesCount() {
-      if (heartRateZonesBuilder_ == null) {
-        return heartRateZones_.size();
-      } else {
-        return heartRateZonesBuilder_.getCount();
-      }
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZone getHeartRateZones(int index) {
-      if (heartRateZonesBuilder_ == null) {
-        return heartRateZones_.get(index);
-      } else {
-        return heartRateZonesBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder setHeartRateZones(
-        int index, grpc.example.healthactivities.ExerciseResponse.HeartRateZone value) {
-      if (heartRateZonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.set(index, value);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.setMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder setHeartRateZones(
-        int index, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder builderForValue) {
-      if (heartRateZonesBuilder_ == null) {
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.set(index, builderForValue.build());
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.setMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder addHeartRateZones(grpc.example.healthactivities.ExerciseResponse.HeartRateZone value) {
-      if (heartRateZonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.add(value);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder addHeartRateZones(
-        int index, grpc.example.healthactivities.ExerciseResponse.HeartRateZone value) {
-      if (heartRateZonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.add(index, value);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder addHeartRateZones(
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder builderForValue) {
-      if (heartRateZonesBuilder_ == null) {
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.add(builderForValue.build());
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder addHeartRateZones(
-        int index, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder builderForValue) {
-      if (heartRateZonesBuilder_ == null) {
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder addAllHeartRateZones(
-        java.lang.Iterable<? extends grpc.example.healthactivities.ExerciseResponse.HeartRateZone> values) {
-      if (heartRateZonesBuilder_ == null) {
-        ensureHeartRateZonesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, heartRateZones_);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder clearHeartRateZones() {
-      if (heartRateZonesBuilder_ == null) {
-        heartRateZones_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public Builder removeHeartRateZones(int index) {
-      if (heartRateZonesBuilder_ == null) {
-        ensureHeartRateZonesIsMutable();
-        heartRateZones_.remove(index);
-        onChanged();
-      } else {
-        heartRateZonesBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder getHeartRateZonesBuilder(
-        int index) {
-      return getHeartRateZonesFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder getHeartRateZonesOrBuilder(
-        int index) {
-      if (heartRateZonesBuilder_ == null) {
-        return heartRateZones_.get(index);  } else {
-        return heartRateZonesBuilder_.getMessageOrBuilder(index);
-      }
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public java.util.List<? extends grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder> 
-         getHeartRateZonesOrBuilderList() {
-      if (heartRateZonesBuilder_ != null) {
-        return heartRateZonesBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(heartRateZones_);
-      }
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder addHeartRateZonesBuilder() {
-      return getHeartRateZonesFieldBuilder().addBuilder(
-          grpc.example.healthactivities.ExerciseResponse.HeartRateZone.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder addHeartRateZonesBuilder(
-        int index) {
-      return getHeartRateZonesFieldBuilder().addBuilder(
-          index, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .health_activities.ExerciseResponse.HeartRateZone heart_rate_zones = 3;</code>
-     */
-    public java.util.List<grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder> 
-         getHeartRateZonesBuilderList() {
-      return getHeartRateZonesFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.example.healthactivities.ExerciseResponse.HeartRateZone, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder, grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder> 
-        getHeartRateZonesFieldBuilder() {
-      if (heartRateZonesBuilder_ == null) {
-        heartRateZonesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            grpc.example.healthactivities.ExerciseResponse.HeartRateZone, grpc.example.healthactivities.ExerciseResponse.HeartRateZone.Builder, grpc.example.healthactivities.ExerciseResponse.HeartRateZoneOrBuilder>(
-                heartRateZones_,
-                ((bitField0_ & 0x00000004) == 0x00000004),
-                getParentForChildren(),
-                isClean());
-        heartRateZones_ = null;
-      }
-      return heartRateZonesBuilder_;
-    }
-
-    private int averageHeartRate_ ;
-    /**
-     * <code>int32 average_heart_rate = 4;</code>
-     */
-    public int getAverageHeartRate() {
-      return averageHeartRate_;
-    }
-    /**
-     * <code>int32 average_heart_rate = 4;</code>
-     */
-    public Builder setAverageHeartRate(int value) {
+    public Builder setAvgHeartRate(int value) {
       
-      averageHeartRate_ = value;
+      avgHeartRate_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 average_heart_rate = 4;</code>
+     * <pre>
+     * The average heart rate during the exercise
+     * </pre>
+     *
+     * <code>int32 avg_heart_rate = 3;</code>
      */
-    public Builder clearAverageHeartRate() {
+    public Builder clearAvgHeartRate() {
       
-      averageHeartRate_ = 0;
+      avgHeartRate_ = 0;
       onChanged();
       return this;
     }
 
     private int maxHeartRate_ ;
     /**
-     * <code>int32 max_heart_rate = 5;</code>
+     * <pre>
+     * The maximum heart rate achieved during the exercise
+     * </pre>
+     *
+     * <code>int32 max_heart_rate = 4;</code>
      */
     public int getMaxHeartRate() {
       return maxHeartRate_;
     }
     /**
-     * <code>int32 max_heart_rate = 5;</code>
+     * <pre>
+     * The maximum heart rate achieved during the exercise
+     * </pre>
+     *
+     * <code>int32 max_heart_rate = 4;</code>
      */
     public Builder setMaxHeartRate(int value) {
       
@@ -1510,37 +646,15 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>int32 max_heart_rate = 5;</code>
+     * <pre>
+     * The maximum heart rate achieved during the exercise
+     * </pre>
+     *
+     * <code>int32 max_heart_rate = 4;</code>
      */
     public Builder clearMaxHeartRate() {
       
       maxHeartRate_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int caloriesSpent_ ;
-    /**
-     * <code>int32 calories_spent = 6;</code>
-     */
-    public int getCaloriesSpent() {
-      return caloriesSpent_;
-    }
-    /**
-     * <code>int32 calories_spent = 6;</code>
-     */
-    public Builder setCaloriesSpent(int value) {
-      
-      caloriesSpent_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 calories_spent = 6;</code>
-     */
-    public Builder clearCaloriesSpent() {
-      
-      caloriesSpent_ = 0;
       onChanged();
       return this;
     }

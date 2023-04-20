@@ -17,8 +17,7 @@ private static final long serialVersionUID = 0L;
   }
   private NutritionResponse() {
     totalCaloriesIntake_ = 0;
-    caloriesBalance_ = 0;
-    caloriesStatus_ = 0;
+    isCaloricSurplus_ = false;
   }
 
   @java.lang.Override
@@ -52,13 +51,7 @@ private static final long serialVersionUID = 0L;
           }
           case 16: {
 
-            caloriesBalance_ = input.readInt32();
-            break;
-          }
-          case 24: {
-            int rawValue = input.readEnum();
-
-            caloriesStatus_ = rawValue;
+            isCaloricSurplus_ = input.readBool();
             break;
           }
           default: {
@@ -102,30 +95,13 @@ private static final long serialVersionUID = 0L;
     return totalCaloriesIntake_;
   }
 
-  public static final int CALORIES_BALANCE_FIELD_NUMBER = 2;
-  private int caloriesBalance_;
+  public static final int IS_CALORIC_SURPLUS_FIELD_NUMBER = 2;
+  private boolean isCaloricSurplus_;
   /**
-   * <code>int32 calories_balance = 2;</code>
+   * <code>bool is_caloric_surplus = 2;</code>
    */
-  public int getCaloriesBalance() {
-    return caloriesBalance_;
-  }
-
-  public static final int CALORIES_STATUS_FIELD_NUMBER = 3;
-  private int caloriesStatus_;
-  /**
-   * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-   */
-  public int getCaloriesStatusValue() {
-    return caloriesStatus_;
-  }
-  /**
-   * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-   */
-  public grpc.example.healthactivities.CaloriesStatus getCaloriesStatus() {
-    @SuppressWarnings("deprecation")
-    grpc.example.healthactivities.CaloriesStatus result = grpc.example.healthactivities.CaloriesStatus.valueOf(caloriesStatus_);
-    return result == null ? grpc.example.healthactivities.CaloriesStatus.UNRECOGNIZED : result;
+  public boolean getIsCaloricSurplus() {
+    return isCaloricSurplus_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -145,11 +121,8 @@ private static final long serialVersionUID = 0L;
     if (totalCaloriesIntake_ != 0) {
       output.writeInt32(1, totalCaloriesIntake_);
     }
-    if (caloriesBalance_ != 0) {
-      output.writeInt32(2, caloriesBalance_);
-    }
-    if (caloriesStatus_ != grpc.example.healthactivities.CaloriesStatus.CALORIE_SURPLUS.getNumber()) {
-      output.writeEnum(3, caloriesStatus_);
+    if (isCaloricSurplus_ != false) {
+      output.writeBool(2, isCaloricSurplus_);
     }
     unknownFields.writeTo(output);
   }
@@ -164,13 +137,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, totalCaloriesIntake_);
     }
-    if (caloriesBalance_ != 0) {
+    if (isCaloricSurplus_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, caloriesBalance_);
-    }
-    if (caloriesStatus_ != grpc.example.healthactivities.CaloriesStatus.CALORIE_SURPLUS.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(3, caloriesStatus_);
+        .computeBoolSize(2, isCaloricSurplus_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -190,9 +159,8 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && (getTotalCaloriesIntake()
         == other.getTotalCaloriesIntake());
-    result = result && (getCaloriesBalance()
-        == other.getCaloriesBalance());
-    result = result && caloriesStatus_ == other.caloriesStatus_;
+    result = result && (getIsCaloricSurplus()
+        == other.getIsCaloricSurplus());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -206,10 +174,9 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TOTAL_CALORIES_INTAKE_FIELD_NUMBER;
     hash = (53 * hash) + getTotalCaloriesIntake();
-    hash = (37 * hash) + CALORIES_BALANCE_FIELD_NUMBER;
-    hash = (53 * hash) + getCaloriesBalance();
-    hash = (37 * hash) + CALORIES_STATUS_FIELD_NUMBER;
-    hash = (53 * hash) + caloriesStatus_;
+    hash = (37 * hash) + IS_CALORIC_SURPLUS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsCaloricSurplus());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -345,9 +312,7 @@ private static final long serialVersionUID = 0L;
       super.clear();
       totalCaloriesIntake_ = 0;
 
-      caloriesBalance_ = 0;
-
-      caloriesStatus_ = 0;
+      isCaloricSurplus_ = false;
 
       return this;
     }
@@ -376,8 +341,7 @@ private static final long serialVersionUID = 0L;
     public grpc.example.healthactivities.NutritionResponse buildPartial() {
       grpc.example.healthactivities.NutritionResponse result = new grpc.example.healthactivities.NutritionResponse(this);
       result.totalCaloriesIntake_ = totalCaloriesIntake_;
-      result.caloriesBalance_ = caloriesBalance_;
-      result.caloriesStatus_ = caloriesStatus_;
+      result.isCaloricSurplus_ = isCaloricSurplus_;
       onBuilt();
       return result;
     }
@@ -429,11 +393,8 @@ private static final long serialVersionUID = 0L;
       if (other.getTotalCaloriesIntake() != 0) {
         setTotalCaloriesIntake(other.getTotalCaloriesIntake());
       }
-      if (other.getCaloriesBalance() != 0) {
-        setCaloriesBalance(other.getCaloriesBalance());
-      }
-      if (other.caloriesStatus_ != 0) {
-        setCaloriesStatusValue(other.getCaloriesStatusValue());
+      if (other.getIsCaloricSurplus() != false) {
+        setIsCaloricSurplus(other.getIsCaloricSurplus());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -490,73 +451,28 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int caloriesBalance_ ;
+    private boolean isCaloricSurplus_ ;
     /**
-     * <code>int32 calories_balance = 2;</code>
+     * <code>bool is_caloric_surplus = 2;</code>
      */
-    public int getCaloriesBalance() {
-      return caloriesBalance_;
+    public boolean getIsCaloricSurplus() {
+      return isCaloricSurplus_;
     }
     /**
-     * <code>int32 calories_balance = 2;</code>
+     * <code>bool is_caloric_surplus = 2;</code>
      */
-    public Builder setCaloriesBalance(int value) {
+    public Builder setIsCaloricSurplus(boolean value) {
       
-      caloriesBalance_ = value;
+      isCaloricSurplus_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 calories_balance = 2;</code>
+     * <code>bool is_caloric_surplus = 2;</code>
      */
-    public Builder clearCaloriesBalance() {
+    public Builder clearIsCaloricSurplus() {
       
-      caloriesBalance_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int caloriesStatus_ = 0;
-    /**
-     * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-     */
-    public int getCaloriesStatusValue() {
-      return caloriesStatus_;
-    }
-    /**
-     * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-     */
-    public Builder setCaloriesStatusValue(int value) {
-      caloriesStatus_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-     */
-    public grpc.example.healthactivities.CaloriesStatus getCaloriesStatus() {
-      @SuppressWarnings("deprecation")
-      grpc.example.healthactivities.CaloriesStatus result = grpc.example.healthactivities.CaloriesStatus.valueOf(caloriesStatus_);
-      return result == null ? grpc.example.healthactivities.CaloriesStatus.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-     */
-    public Builder setCaloriesStatus(grpc.example.healthactivities.CaloriesStatus value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      caloriesStatus_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-     */
-    public Builder clearCaloriesStatus() {
-      
-      caloriesStatus_ = 0;
+      isCaloricSurplus_ = false;
       onChanged();
       return this;
     }

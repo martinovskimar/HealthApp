@@ -13,16 +13,7 @@ public interface NutritionResponseOrBuilder extends
   int getTotalCaloriesIntake();
 
   /**
-   * <code>int32 calories_balance = 2;</code>
+   * <code>bool is_caloric_surplus = 2;</code>
    */
-  int getCaloriesBalance();
-
-  /**
-   * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-   */
-  int getCaloriesStatusValue();
-  /**
-   * <code>.health_activities.CaloriesStatus calories_status = 3;</code>
-   */
-  grpc.example.healthactivities.CaloriesStatus getCaloriesStatus();
+  boolean getIsCaloricSurplus();
 }

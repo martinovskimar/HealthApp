@@ -4,10 +4,6 @@
 package grpc.example.healthactivities;
 
 /**
- * <pre>
- * Request message for the Exercise method.
- * </pre>
- *
  * Protobuf type {@code health_activities.ExerciseRequest}
  */
 public  final class ExerciseRequest extends
@@ -20,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private ExerciseRequest() {
-    typeOfExercise_ = 0;
+    exerciseType_ = "";
   }
 
   @java.lang.Override
@@ -47,10 +43,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
-            int rawValue = input.readEnum();
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
 
-            typeOfExercise_ = rawValue;
+            exerciseType_ = s;
             break;
           }
           default: {
@@ -85,137 +81,38 @@ private static final long serialVersionUID = 0L;
             grpc.example.healthactivities.ExerciseRequest.class, grpc.example.healthactivities.ExerciseRequest.Builder.class);
   }
 
+  public static final int EXERCISE_TYPE_FIELD_NUMBER = 1;
+  private volatile java.lang.Object exerciseType_;
   /**
-   * Protobuf enum {@code health_activities.ExerciseRequest.TypeOfExercise}
+   * <code>string exercise_type = 1;</code>
    */
-  public enum TypeOfExercise
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>RUNNING = 0;</code>
-     */
-    RUNNING(0),
-    /**
-     * <code>CYCLING = 1;</code>
-     */
-    CYCLING(1),
-    /**
-     * <code>SWIMMING = 2;</code>
-     */
-    SWIMMING(2),
-    /**
-     * <code>WEIGHT_LIFTING = 3;</code>
-     */
-    WEIGHT_LIFTING(3),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>RUNNING = 0;</code>
-     */
-    public static final int RUNNING_VALUE = 0;
-    /**
-     * <code>CYCLING = 1;</code>
-     */
-    public static final int CYCLING_VALUE = 1;
-    /**
-     * <code>SWIMMING = 2;</code>
-     */
-    public static final int SWIMMING_VALUE = 2;
-    /**
-     * <code>WEIGHT_LIFTING = 3;</code>
-     */
-    public static final int WEIGHT_LIFTING_VALUE = 3;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
+  public java.lang.String getExerciseType() {
+    java.lang.Object ref = exerciseType_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      exerciseType_ = s;
+      return s;
     }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static TypeOfExercise valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static TypeOfExercise forNumber(int value) {
-      switch (value) {
-        case 0: return RUNNING;
-        case 1: return CYCLING;
-        case 2: return SWIMMING;
-        case 3: return WEIGHT_LIFTING;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<TypeOfExercise>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        TypeOfExercise> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<TypeOfExercise>() {
-            public TypeOfExercise findValueByNumber(int number) {
-              return TypeOfExercise.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return grpc.example.healthactivities.ExerciseRequest.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final TypeOfExercise[] VALUES = values();
-
-    public static TypeOfExercise valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private TypeOfExercise(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:health_activities.ExerciseRequest.TypeOfExercise)
-  }
-
-  public static final int TYPE_OF_EXERCISE_FIELD_NUMBER = 1;
-  private int typeOfExercise_;
-  /**
-   * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
-   */
-  public int getTypeOfExerciseValue() {
-    return typeOfExercise_;
   }
   /**
-   * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
+   * <code>string exercise_type = 1;</code>
    */
-  public grpc.example.healthactivities.ExerciseRequest.TypeOfExercise getTypeOfExercise() {
-    @SuppressWarnings("deprecation")
-    grpc.example.healthactivities.ExerciseRequest.TypeOfExercise result = grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.valueOf(typeOfExercise_);
-    return result == null ? grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.UNRECOGNIZED : result;
+  public com.google.protobuf.ByteString
+      getExerciseTypeBytes() {
+    java.lang.Object ref = exerciseType_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      exerciseType_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -232,8 +129,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (typeOfExercise_ != grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.RUNNING.getNumber()) {
-      output.writeEnum(1, typeOfExercise_);
+    if (!getExerciseTypeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, exerciseType_);
     }
     unknownFields.writeTo(output);
   }
@@ -244,9 +141,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (typeOfExercise_ != grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.RUNNING.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(1, typeOfExercise_);
+    if (!getExerciseTypeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, exerciseType_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -264,7 +160,8 @@ private static final long serialVersionUID = 0L;
     grpc.example.healthactivities.ExerciseRequest other = (grpc.example.healthactivities.ExerciseRequest) obj;
 
     boolean result = true;
-    result = result && typeOfExercise_ == other.typeOfExercise_;
+    result = result && getExerciseType()
+        .equals(other.getExerciseType());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -276,8 +173,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + TYPE_OF_EXERCISE_FIELD_NUMBER;
-    hash = (53 * hash) + typeOfExercise_;
+    hash = (37 * hash) + EXERCISE_TYPE_FIELD_NUMBER;
+    hash = (53 * hash) + getExerciseType().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -374,10 +271,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Request message for the Exercise method.
-   * </pre>
-   *
    * Protobuf type {@code health_activities.ExerciseRequest}
    */
   public static final class Builder extends
@@ -415,7 +308,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      typeOfExercise_ = 0;
+      exerciseType_ = "";
 
       return this;
     }
@@ -443,7 +336,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public grpc.example.healthactivities.ExerciseRequest buildPartial() {
       grpc.example.healthactivities.ExerciseRequest result = new grpc.example.healthactivities.ExerciseRequest(this);
-      result.typeOfExercise_ = typeOfExercise_;
+      result.exerciseType_ = exerciseType_;
       onBuilt();
       return result;
     }
@@ -492,8 +385,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.example.healthactivities.ExerciseRequest other) {
       if (other == grpc.example.healthactivities.ExerciseRequest.getDefaultInstance()) return this;
-      if (other.typeOfExercise_ != 0) {
-        setTypeOfExerciseValue(other.getTypeOfExerciseValue());
+      if (!other.getExerciseType().isEmpty()) {
+        exerciseType_ = other.exerciseType_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -524,47 +418,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int typeOfExercise_ = 0;
+    private java.lang.Object exerciseType_ = "";
     /**
-     * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
+     * <code>string exercise_type = 1;</code>
      */
-    public int getTypeOfExerciseValue() {
-      return typeOfExercise_;
-    }
-    /**
-     * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
-     */
-    public Builder setTypeOfExerciseValue(int value) {
-      typeOfExercise_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
-     */
-    public grpc.example.healthactivities.ExerciseRequest.TypeOfExercise getTypeOfExercise() {
-      @SuppressWarnings("deprecation")
-      grpc.example.healthactivities.ExerciseRequest.TypeOfExercise result = grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.valueOf(typeOfExercise_);
-      return result == null ? grpc.example.healthactivities.ExerciseRequest.TypeOfExercise.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
-     */
-    public Builder setTypeOfExercise(grpc.example.healthactivities.ExerciseRequest.TypeOfExercise value) {
-      if (value == null) {
-        throw new NullPointerException();
+    public java.lang.String getExerciseType() {
+      java.lang.Object ref = exerciseType_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        exerciseType_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
       }
-      
-      typeOfExercise_ = value.getNumber();
+    }
+    /**
+     * <code>string exercise_type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExerciseTypeBytes() {
+      java.lang.Object ref = exerciseType_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        exerciseType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string exercise_type = 1;</code>
+     */
+    public Builder setExerciseType(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      exerciseType_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>.health_activities.ExerciseRequest.TypeOfExercise type_of_exercise = 1;</code>
+     * <code>string exercise_type = 1;</code>
      */
-    public Builder clearTypeOfExercise() {
+    public Builder clearExerciseType() {
       
-      typeOfExercise_ = 0;
+      exerciseType_ = getDefaultInstance().getExerciseType();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string exercise_type = 1;</code>
+     */
+    public Builder setExerciseTypeBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      exerciseType_ = value;
       onChanged();
       return this;
     }
