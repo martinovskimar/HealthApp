@@ -99,7 +99,40 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 	     responseObserver.onCompleted();
 	 }
 
-	 }
+     @Override
+     public void remindMedication(MedicationRequest request, StreamObserver<MedicationReminder> responseObserver) {
+         String username = "martin"; // Set username to "martin"
+         if (!request.getUsername().equals(username)) { // Check if request username is correct
+             responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("Wrong username, try again.").asRuntimeException());
+             return;
+         }
+         // Generate three medication reminders at different times with a 2-second delay between each message
+         try {
+             MedicationReminder reminder1 = MedicationReminder.newBuilder()
+                     .setTime("12:00")
+                     .setMedication("Medication 1")
+                     .build();
+             responseObserver.onNext(reminder1);
+             Thread.sleep(2000);
+             MedicationReminder reminder2 = MedicationReminder.newBuilder()
+                     .setTime("18:00")
+                     .setMedication("Medication 1")
+                     .build();
+             responseObserver.onNext(reminder2);
+             Thread.sleep(2000);
+             MedicationReminder reminder3 = MedicationReminder.newBuilder()
+                     .setTime("24:00")
+                     .setMedication("Medication 1")
+                     .build();
+             responseObserver.onNext(reminder3);
+         } catch (InterruptedException e) {
+             e.printStackTrace();
+         }
+         // Mark the end of the stream
+         responseObserver.onCompleted();
+     }
+ }
+
 	 
 	
 

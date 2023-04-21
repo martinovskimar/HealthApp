@@ -18,12 +18,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 public class HealthActivitiesClient {
@@ -132,7 +135,10 @@ public class HealthActivitiesClient {
 //	        NutritionClient nutritionClient = new NutritionClient("localhost", 5003);
 //	        nutritionClient.sendNutritionInformation();
 	    	
-	    	EmergencyClient client = new EmergencyClient();
+	    	//EmergencyClient client = new EmergencyClient();
+	    	
+	    	MedicationClient client = new MedicationClient("localhost", 5003);
+	        client.setVisible(true);
 	       
 	    }
 	    
@@ -357,6 +363,99 @@ public class HealthActivitiesClient {
 	            // Pack the components and make the frame visible
 	            frame.pack();
 	            frame.setVisible(true);
+	        }
+	    }
+	    
+	    public static class MedicationClient extends JFrame {
+	        private final JTextField usernameField;
+	        private final JTextArea reminderArea;
+	        private final JButton remindButton;
+	        private final ManagedChannel channel;
+	        private final HealthActivitiesServiceGrpc.HealthActivitiesServiceStub stub;
+
+	        public MedicationClient(String host, int port) {
+	            super("Medication Reminder Client");
+	            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	            // Create UI components
+	            JPanel mainPanel = new JPanel(new BorderLayout());
+	            JPanel inputPanel = new JPanel();
+	            JLabel usernameLabel = new JLabel("Username:");
+	            usernameField = new JTextField(20);
+	            remindButton = new JButton("Remind");
+	            reminderArea = new JTextArea(10, 40);
+	            JScrollPane reminderScroll = new JScrollPane(reminderArea);
+
+	            // Add UI components to the main panel
+	            inputPanel.add(usernameLabel);
+	            inputPanel.add(usernameField);
+	            inputPanel.add(remindButton);
+	            mainPanel.add(inputPanel, BorderLayout.NORTH);
+	            mainPanel.add(reminderScroll, BorderLayout.CENTER);
+
+	            // Set up gRPC client
+	            this.channel = ManagedChannelBuilder.forAddress(host, port)
+	                    .usePlaintext()
+	                    .build();
+	            this.stub = HealthActivitiesServiceGrpc.newStub(channel);
+
+	            // Set up action listener for the "Remind" button
+	            remindButton.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    // Get the username from the text field
+	                    String username = usernameField.getText();
+
+	                    if (!username.equals("martin")) {
+	                        JOptionPane.showMessageDialog(null, "Wrong username, try again.");
+	                        return;
+	                    }
+
+	                    // Clear the reminder area
+	                    reminderArea.setText("");
+
+	                    // Call the gRPC server to remind the user
+	                    remindMedication(username);
+	                }
+	            });
+
+	            // Add the main panel to the frame
+	            getContentPane().add(mainPanel);
+
+	            // Display the frame
+	            pack();
+	            setLocationRelativeTo(null);
+	            setVisible(true);
+	        }
+
+	        public void remindMedication(String username) {
+	            MedicationRequest request = MedicationRequest.newBuilder()
+	                    .setUsername(username)
+	                    .build();
+	            stub.remindMedication(request, new StreamObserver<MedicationReminder>() {
+	                @Override
+	                public void onNext(MedicationReminder reminder) {
+	                    // Add the reminder to the reminder area
+	                    reminderArea.append("Time: " + reminder.getTime() + ", Medication: " + reminder.getMedication() + "\n");
+	                }
+
+	                @Override
+	                public void onError(Throwable t) {
+	                    // Handle any errors that occur during the call
+	                    t.printStackTrace();
+	                }
+
+	                @Override
+	                public void onCompleted() {
+	                    // Called when the server finishes sending reminders
+	                    reminderArea.append("All reminders received\n");
+	                }
+	            });
+	        }
+
+	        public void shutdown() throws InterruptedException {
+	            // Shut down the channel when the client is done
+	            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	        }
 	    }
 }
