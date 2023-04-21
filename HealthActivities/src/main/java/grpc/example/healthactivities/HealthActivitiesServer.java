@@ -2,13 +2,16 @@ package grpc.example.healthactivities;
 
 import java.io.IOException;
 
+
 import grpc.example.healthactivities.HealthActivitiesServer;
 import grpc.example.healthactivities.HealthActivitiesServiceGrpc.HealthActivitiesServiceImplBase;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
+
 
 	public static void main(String args []) throws IOException, InterruptedException {
 		
@@ -81,5 +84,22 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
              }
          };
      }
+	 @Override
+	 public void callAmbulance(EmergencyRequest request, StreamObserver<EmergencyResponse> responseObserver) {
+	     String username = request.getUsername();
+	     if (username == null || !username.equals("martin") ) {
+	    	 responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("Invalid username.").asRuntimeException());
+	         return;
+	     }
+	     boolean callAmbulance = true; 
+	     EmergencyResponse response = EmergencyResponse.newBuilder()
+	             .setCallAmbulance(callAmbulance)
+	             .build();
+	     responseObserver.onNext(response);
+	     responseObserver.onCompleted();
+	 }
+
+	 }
+	 
 	
-}
+

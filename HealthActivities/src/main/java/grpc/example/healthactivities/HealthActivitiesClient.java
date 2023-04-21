@@ -1,10 +1,17 @@
 package grpc.example.healthactivities;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -120,8 +128,11 @@ public class HealthActivitiesClient {
 //	        client.blockingStub.exercise(ExerciseRequest.newBuilder()
 //	                .setExerciseType("Running")
 //	                .build());
-	        NutritionClient nutritionClient = new NutritionClient("localhost", 5003);
-	        nutritionClient.sendNutritionInformation();
+	    	
+//	        NutritionClient nutritionClient = new NutritionClient("localhost", 5003);
+//	        nutritionClient.sendNutritionInformation();
+	    	
+	    	EmergencyClient client = new EmergencyClient();
 	       
 	    }
 	    
@@ -264,7 +275,88 @@ public class HealthActivitiesClient {
 	    public void shutdown() throws InterruptedException {
 	        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	    }
+	      
+	}  
 	    
-	   
-	}   
+	    public static class EmergencyClient {
+	        private JTextField usernameField;
+	        private JButton callAmbulanceButton;
+	        private JButton cancelButton;
+	        private HealthActivitiesServiceGrpc.HealthActivitiesServiceBlockingStub blockingStub;
+
+	        public EmergencyClient() {
+	            // Initialize the GUI
+	            JFrame frame = new JFrame("Emergency Response");
+	            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	            // Create the constraints for the GridBagLayout
+	            GridBagConstraints c = new GridBagConstraints();
+	            c.fill = GridBagConstraints.HORIZONTAL;
+	            c.gridx = 0;
+	            c.gridy = 0;
+	            c.insets = new Insets(5, 5, 5, 5);
+
+	            // Create the panel for the username field
+	            JPanel panel1 = new JPanel(new GridBagLayout());
+	            JLabel usernameLabel = new JLabel("Enter username: ");
+	            usernameField = new JTextField(20);
+	            panel1.add(usernameLabel, c);
+	            c.gridx = 1;
+	            panel1.add(usernameField, c);
+	            frame.add(panel1);
+
+	            // Create the panel for the call ambulance and cancel buttons
+	            JPanel panel2 = new JPanel(new FlowLayout());
+	            callAmbulanceButton = new JButton("Call Ambulance");
+	            callAmbulanceButton.setEnabled(false); // Disable the button initially
+	            cancelButton = new JButton("Cancel");
+	            panel2.add(callAmbulanceButton);
+	            panel2.add(cancelButton);
+	            frame.add(panel2, BorderLayout.SOUTH);
+
+	            // Set up the event listener for the username field
+	            usernameField.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    // Enable the "Call Ambulance" button
+	                    callAmbulanceButton.setEnabled(true);
+	                    // Set the focus on the "Call Ambulance" button
+	                    callAmbulanceButton.requestFocus();
+	                }
+	            });
+
+	            // Set up the gRPC channel and blocking stub
+	            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 5003).usePlaintext().build();
+	            blockingStub = HealthActivitiesServiceGrpc.newBlockingStub(channel);
+
+	            // Set up the event listeners for the buttons
+	            callAmbulanceButton.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    // Get the username from the text field
+	                    String username = usernameField.getText();
+
+	                    // Make the gRPC request
+	                    EmergencyRequest request = EmergencyRequest.newBuilder().setUsername(username).build();
+	                    EmergencyResponse response = blockingStub.callAmbulance(request);
+
+	                    // Display the response
+	                    JOptionPane.showMessageDialog(frame, "Ambulance is on the way!", "Response",
+	                            JOptionPane.INFORMATION_MESSAGE);
+	                }
+	            });
+
+	            cancelButton.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    // Close the window
+	                    frame.dispose();
+	                }
+	            });
+
+	            // Pack the components and make the frame visible
+	            frame.pack();
+	            frame.setVisible(true);
+	        }
+	    }
 }
