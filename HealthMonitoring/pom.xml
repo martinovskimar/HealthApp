@@ -52,7 +52,12 @@
 			<version>3.4.1</version>
 		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>grpc.example.healthactivities</groupId>
+			<artifactId>HealthActivities</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+   </dependencies>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

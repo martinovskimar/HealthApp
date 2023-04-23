@@ -6,6 +6,7 @@ import java.util.Random;
 import grpc.example.healthmonitoring.HealthMonitoringServiceGrpc.HealthMonitoringServiceImplBase;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class HealthMonitoringServer extends HealthMonitoringServiceImplBase {
@@ -36,38 +37,38 @@ public class HealthMonitoringServer extends HealthMonitoringServiceImplBase {
 	}
 	
 	@Override
-	public void trackSteps(UserStepsRequest request, StreamObserver<UserStepsResponse> responseObserver) {
-		
-		Random random = new Random();
-		boolean goal_achived = false;
-		int goal = 7000;
-		int current_steps = random.nextInt(15000);
-		
-		for(int i = 0; i < 10; i++) {
-			current_steps = current_steps + i;
-			int average_steps = current_steps / 2;
-			if(current_steps >= goal) {
-				goal_achived = true;
-			} 
-			
-			
-			UserStepsResponse response = UserStepsResponse.newBuilder()
-					.setCurrentSteps(current_steps)
-					.setGoalAchieved(goal_achived)
-					.setAverageSteps(average_steps)
-					.build();
-			
-			responseObserver.onNext(response);
-			
-			try {
+public void trackSteps(UserStepsRequest request, StreamObserver<UserStepsResponse> responseObserver) {
+            
+        Random random = new Random();
+        boolean goalAchieved = false;
+        int goal = 7000;
+        int currentSteps = random.nextInt(15000);
+        
+        for(int i = 0; i < 10; i++) {
+            currentSteps = currentSteps + i;
+            int averageSteps = currentSteps / 2;
+            if(currentSteps >= goal) {
+                goalAchieved = true;
+            } 
+            
+            UserStepsResponse response = UserStepsResponse.newBuilder()
+                    .setCurrentSteps(currentSteps)
+                    .setGoalAchieved(goalAchieved)
+                    .setAverageSteps(averageSteps)
+                    .build();
+            
+            responseObserver.onNext(response);
+            
+            try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-		}
-		
-		responseObserver.onCompleted();
-	}
+        }
+        
+        responseObserver.onCompleted();
+    }
+
 	
 	@Override
 	public void hearthRate(UserHearthRateRequest request, StreamObserver<UserHearthRateResponse> responseObserver) {
