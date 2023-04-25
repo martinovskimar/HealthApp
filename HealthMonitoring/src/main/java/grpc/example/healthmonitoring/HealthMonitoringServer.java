@@ -104,25 +104,34 @@ public void trackSteps(UserStepsRequest request, StreamObserver<UserStepsRespons
 		
 	}
 	@Override
-    public void trackSleep(UserSleepRequest request, StreamObserver<UserSleepResponse> responseObserver) {
-		Random random = new Random();
-        int totalSleepTime = (int) (request.getWakeupTime().getSeconds() - request.getSleepTime().getSeconds()) / 60;
-        double sleepScore = random.nextDouble() * 100;
-        SleepDisorder sleepDisorder = SleepDisorder.NONE;
+	public void trackSleep(UserSleepRequest request, StreamObserver<UserSleepResponse> responseObserver) {
+	    int totalSleepTime = (int) (request.getWakeupTime().getSeconds() - request.getSleepTime().getSeconds()) / 60;
+	    int sleepCycleMinutes = 90;
+	    double numberOfCycles = (double) totalSleepTime / sleepCycleMinutes;
+	    double idealCycles = Math.round(numberOfCycles);
+	    double deviation = Math.abs(numberOfCycles - idealCycles);
 
-        if (request.getSnorintTimeMinutes() > 30) {
-            sleepDisorder = SleepDisorder.SLEEP_APNEA;
-        }
+	    // Calculate the sleep score, scale it within the range of 0-100.
+	    // Increase the scaling factor from 100 to 200 to have more influence of deviation on the sleep score.
+	    double sleepScore = 100 - (deviation / idealCycles) * 300;
 
-        UserSleepResponse response = UserSleepResponse.newBuilder()
-                .setTotalSleepTimeMinutes(totalSleepTime)
-                .setSleepScore(sleepScore)
-                .setSleepDisprder(sleepDisorder)
-                .build();
+	    SleepDisorder sleepDisorder = SleepDisorder.NONE;
+	    if (request.getSnorintTimeMinutes() > 30) {
+	        sleepDisorder = SleepDisorder.SLEEP_APNEA;
+	    }
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
+	    UserSleepResponse response = UserSleepResponse.newBuilder()
+	            .setTotalSleepTimeMinutes(totalSleepTime)
+	            .setSleepScore(sleepScore)
+	            .setSleepDisprder(sleepDisorder)
+	            .build();
+
+	    responseObserver.onNext(response);
+	    responseObserver.onCompleted();
+	}
+
+
+
 	
     @Override
     public StreamObserver<UserStressRequest> trackStress(StreamObserver<UserStressResponse> responseObserver) {

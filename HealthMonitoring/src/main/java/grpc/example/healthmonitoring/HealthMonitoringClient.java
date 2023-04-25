@@ -1,13 +1,15 @@
 package grpc.example.healthmonitoring;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Date;
+import java.time.ZoneId;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -191,57 +193,106 @@ public class HealthMonitoringClient {
 
     
     public void trackSleep() {
-      
-            // get user input via JOptionPane
-            String username = JOptionPane.showInputDialog("Enter your username:");
-            String sleepTimeStr = JOptionPane.showInputDialog("Enter your sleep time in format 'yyyy-MM-dd HH:mm:ss':");
-            String wakeupTimeStr = JOptionPane.showInputDialog("Enter your wakeup time in format 'yyyy-MM-dd HH:mm:ss':");
-            int snoringTimeMinutes = Integer.parseInt(JOptionPane.showInputDialog("Enter your snoring time in minutes:"));
+        JFrame frame = new JFrame("Sleep Tracker");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 200);
 
-            // create sleep time timestamp
-            LocalDateTime sleepTime = LocalDateTime.parse(sleepTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Timestamp sleepTimestamp = Timestamp.newBuilder()
-                    .setSeconds(sleepTime.toEpochSecond(ZoneOffset.UTC))
-                    .setNanos(sleepTime.getNano())
-                    .build();
+        JPanel panel = new JPanel(new GridLayout(5, 2));
 
-            // create wakeup time timestamp
-            LocalDateTime wakeupTime = LocalDateTime.parse(wakeupTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Timestamp wakeupTimestamp = Timestamp.newBuilder()
-                    .setSeconds(wakeupTime.toEpochSecond(ZoneOffset.UTC))
-                    .setNanos(wakeupTime.getNano())
-                    .build();
+        // Username input
+        JLabel usernameLabel = new JLabel("Enter your username:");
+        JTextField usernameField = new JTextField();
+        panel.add(usernameLabel);
+        panel.add(usernameField);
 
-            // create sleep request
-            UserSleepRequest request = UserSleepRequest.newBuilder()
-                    .setUsername(username)
-                    .setSleepTime(sleepTimestamp)
-                    .setWakeupTime(wakeupTimestamp)
-                    .setSnorintTimeMinutes(snoringTimeMinutes)
-                    .build();
+        // Sleep time input
+        JLabel sleepTimeLabel = new JLabel("Enter your sleep time:");
+        SpinnerDateModel sleepTimeModel = new SpinnerDateModel();
+        JSpinner sleepTimeSpinner = new JSpinner(sleepTimeModel);
+        sleepTimeSpinner.setEditor(new JSpinner.DateEditor(sleepTimeSpinner, "yyyy-MM-dd HH:mm:ss"));
+        panel.add(sleepTimeLabel);
+        panel.add(sleepTimeSpinner);
 
-            // make the request and handle the response asynchronously
-            stub.trackSleep(request, new StreamObserver<UserSleepResponse>() {
-                @Override
-                public void onNext(UserSleepResponse response) {
-                    System.out.println("Total Sleep Time: " + response.getTotalSleepTimeMinutes() + " minutes");
-                    System.out.println("Sleep Score: " + response.getSleepScore());
-                    System.out.println("Sleep Disorder: " + response.getSleepDisprder());
-                }
+        // Wakeup time input
+        JLabel wakeupTimeLabel = new JLabel("Enter your wakeup time:");
+        SpinnerDateModel wakeupTimeModel = new SpinnerDateModel();
+        JSpinner wakeupTimeSpinner = new JSpinner(wakeupTimeModel);
+        wakeupTimeSpinner.setEditor(new JSpinner.DateEditor(wakeupTimeSpinner, "yyyy-MM-dd HH:mm:ss"));
+        panel.add(wakeupTimeLabel);
+        panel.add(wakeupTimeSpinner);
 
-                @Override
-                public void onError(Throwable t) {
-                    System.out.println("Error occurred: " + t.getMessage());
-                }
+        // Snoring time input
+        JLabel snoringTimeLabel = new JLabel("Enter your snoring time in minutes:");
+        JTextField snoringTimeField = new JTextField();
+        panel.add(snoringTimeLabel);
+        panel.add(snoringTimeField);
+
+        // Submit button
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get input values
+                String username = usernameField.getText();
+                Date sleepTimeDate = (Date) sleepTimeSpinner.getValue();
+                Date wakeupTimeDate = (Date) wakeupTimeSpinner.getValue();
+                int snoringTimeMinutes = Integer.parseInt(snoringTimeField.getText());
+
+                // Create sleep time timestamp
+                LocalDateTime sleepTime = LocalDateTime.ofInstant(sleepTimeDate.toInstant(), ZoneId.systemDefault());
+                Timestamp sleepTimestamp = Timestamp.newBuilder()
+                        .setSeconds(sleepTime.toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(sleepTime.getNano())
+                        .build();
+
+                // Create wakeup time timestamp
+                LocalDateTime wakeupTime = LocalDateTime.ofInstant(wakeupTimeDate.toInstant(), ZoneId.systemDefault());
+                Timestamp wakeupTimestamp = Timestamp.newBuilder()
+                        .setSeconds(wakeupTime.toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(wakeupTime.getNano())
+                        .build();
+
+                // Create sleep request
+                UserSleepRequest request = UserSleepRequest.newBuilder()
+                        .setUsername(username)
+                        .setSleepTime(sleepTimestamp)
+                        .setWakeupTime(wakeupTimestamp)
+                        .setSnorintTimeMinutes(snoringTimeMinutes)
+                        .build();
+
+                // Make the request and handle the response asynchronously
+                stub.trackSleep(request, new StreamObserver<UserSleepResponse>() {
+                    @Override
+                    public void onNext(UserSleepResponse response) {
+                        int totalSleepTimeMinutes = response.getTotalSleepTimeMinutes();
+                        int hours = totalSleepTimeMinutes / 60;
+                        int minutes = totalSleepTimeMinutes % 60;
+                        int seconds = (int) ((totalSleepTimeMinutes * 60) % 60);
+                        String formattedTotalSleepTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+                        System.out.println("Total Sleep Time: " + formattedTotalSleepTime);
+                        System.out.println("Sleep Score: " + response.getSleepScore());
+                        System.out.println("Sleep Disorder: " + response.getSleepDisprder());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        System.out.println("Error occurred: " + t.getMessage());
+                    }
+
 
                 @Override
                 public void onCompleted() {
                     System.out.println("Sleep tracking completed.");
                 }
             });
-           
-       
-    }
+        }
+    });
+
+    panel.add(submitButton);
+    frame.add(panel);
+    frame.setVisible(true);
+}
     
     public void trackStress() throws InterruptedException {
         CountDownLatch finishLatch = new CountDownLatch(1);
@@ -294,11 +345,11 @@ public class HealthMonitoringClient {
 
     public static void main(String[] args) throws InterruptedException {
         HealthMonitoringClient client = new HealthMonitoringClient("localhost", 5002);
-       client.trackSteps();
+ //      client.trackSteps();
   //      client.hearthRate();
-//        client.trackSleep();
+        client.trackSleep();
 //       client.trackStress();
         
-        
+       
     }
 }
