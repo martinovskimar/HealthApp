@@ -53,32 +53,28 @@ public class UserLoginServer extends userLoginGrpc.userLoginImplBase {
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
-
-        UserLoginServer userLoginServer = new UserLoginServer();
-
-        int port = 5001;
-
+    	 // Register service with jmDNS
         try {
-
-            Server server = ServerBuilder.forPort(port)
-                    .addService(userLoginServer)
-                    .build()
-                    .start();
-
-            System.out.println("Server started, listening on " + port);
-            
-            // Register service with jmDNS
             JmDNS jmdns = JmDNS.create();
+            int port = 5001;
             ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "UserLoginService", port, "User Login Service");
             jmdns.registerService(serviceInfo);
-
-            server.awaitTermination();
-
+            System.out.printf("Service %s:%d registered%n", serviceInfo.getName(), port);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException ee) {
-            ee.printStackTrace();
-
+            System.out.println(e.getMessage());
+            return;
         }
+        
+        // Start gRPC server
+        UserLoginServer userLoginServer = new UserLoginServer();
+        int port = 5001;
+        Server server = ServerBuilder.forPort(port)
+                .addService(userLoginServer)
+                .build()
+                .start();
+        
+        System.out.println("Server started, listening on " + port);
+        server.awaitTermination();
     }
 }
+

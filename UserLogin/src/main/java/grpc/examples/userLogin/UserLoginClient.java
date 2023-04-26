@@ -1,5 +1,11 @@
 package grpc.examples.userLogin;
 
+import java.io.IOException;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceListener;
+import javax.jmdns.ServiceInfo;
 import javax.swing.*;
 
 import io.grpc.ManagedChannel;
@@ -10,9 +16,37 @@ public class UserLoginClient {
     private static String userStatus = "Offline";
     private static JTextField emailField;
     private static JPasswordField passwordField;
+    private static ServiceInfo serviceInfo;
 
-    public static void main(String args[]) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 5001)
+    public static void main(String args[]) throws IOException, InterruptedException {
+        
+        // Discover server with jmDNS
+        JmDNS jmdns = JmDNS.create();
+        String serviceType = "_grpc._tcp.local.";
+        String serviceName = "UserLoginService";
+        ServiceListener listener = new ServiceListener() {
+            public void serviceAdded(ServiceEvent event) {
+                System.out.println("Service added: " + event.getName());
+            }
+            public void serviceRemoved(ServiceEvent event) {
+                System.out.println("Service removed: " + event.getName());
+            }
+            public void serviceResolved(ServiceEvent event) {
+                System.out.println("Service resolved: " + event.getName() + ", " + event.getInfo());
+                if (event.getName().equals(serviceName)) {
+                    serviceInfo = event.getInfo();
+                }
+            }
+        };
+        jmdns.addServiceListener(serviceType, listener);
+        while (serviceInfo == null) {
+            System.out.println("Waiting for service discovery...");
+            Thread.sleep(1000);
+        }
+        int port = serviceInfo.getPort();
+        System.out.printf("Discovered service at %s:%d%n", serviceInfo.getHostAddresses()[0], port);
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(serviceInfo.getHostAddresses()[0], port)
                 .usePlaintext()
                 .build();
 
