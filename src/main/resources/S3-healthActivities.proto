@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package health_activities;
+
+option java_multiple_files = true;
+option java_package = "grpc.service3";
+option java_outer_classname = "HealthActivitiesProto";
+
+service HealthActivitiesService {
+  rpc Exercise(ExerciseRequest) returns (ExerciseResponse) {}
+  rpc NutritionInformation (stream NutritionRequest) returns (NutritionResponse) {}
+  rpc CallAmbulance (EmergencyRequest) returns (EmergencyResponse) {}
+  rpc RemindMedication (MedicationRequest) returns (stream MedicationReminder) {}
+}
+
+
+message ExerciseRequest {
+  
+  string exercise_type = 1;
+}
+
+message ExerciseResponse {
+  // The duration of the exercise in minutes
+  int32 duration_minutes = 1;
+  // The total number of calories burned during the exercise
+  float calories_burned = 2;
+  // The average heart rate during the exercise
+  int32 avg_heart_rate = 3;
+  // The maximum heart rate achieved during the exercise
+  int32 max_heart_rate = 4;
+}
+
+message NutritionRequest {
+  string meal = 1;
+  int32 calories_intake = 2;
+}
+
+message NutritionResponse {
+  int32 total_calories_intake = 1;
+  bool is_caloric_surplus = 2;
+}
+
+message EmergencyRequest {
+  string username = 1;
+}
+
+message EmergencyResponse {
+  bool call_ambulance = 1;
+}
+
+message MedicationRequest {
+    // The username of the patient.
+    string username = 1;
+}
+
+message MedicationReminder {
+    // The time of the medication reminder.
+    string time = 1;
+    // The name of the medication.
+    string medication = 2;
+}
