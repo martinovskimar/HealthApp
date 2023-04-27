@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 
+import grpc.service2.HealthMonitoringServer;
 import grpc.service3.HealthActivitiesServer;
 import grpc.service3.HealthActivitiesServiceGrpc.HealthActivitiesServiceImplBase;
 import io.grpc.Server;
@@ -14,28 +15,36 @@ import io.grpc.stub.StreamObserver;
 public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        int port = 5003;
-
-        // Register service with JmDNS
-        try {
-            JmDNS jmdns = JmDNS.create();
-            ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "HealthActivitiesService", port, "Health activities service");
-            jmdns.registerService(serviceInfo);
-            System.out.printf("Service %s:%d registered%n", serviceInfo.getName(), port);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
-
-        // Start gRPC server
+		
+        int port = 5002;
+        String serviceType = "_grpc._tcp.local.";
+        String serviceName = "health-activities-service";
+        String serviceDescription = "Health Activities Service";
+        
+        // Create the server
         HealthActivitiesServer healthActivitiesServer = new HealthActivitiesServer();
         Server server = ServerBuilder.forPort(port)
                 .addService(healthActivitiesServer)
-                .build()
-                .start();
+                .build();
 
-        System.out.println("Server started, listening on " + port);
-        server.awaitTermination();
+        // Register the service using jmDNS
+        try {
+            JmDNS jmdns = JmDNS.create();
+            ServiceInfo serviceInfo = ServiceInfo.create(serviceType, serviceName, port, serviceDescription);
+            jmdns.registerService(serviceInfo);
+            System.out.println("Registered service: " + serviceInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Start the server
+        try {
+            server.start();
+            System.out.println("Server started, listening on " + port);
+            server.awaitTermination();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 	
