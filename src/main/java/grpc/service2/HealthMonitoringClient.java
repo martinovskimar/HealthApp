@@ -1,22 +1,20 @@
 package grpc.service2;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
 import java.time.ZoneId;
 
-import java.io.IOException;
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceListener;
-import javax.jmdns.ServiceInfo;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -29,52 +27,21 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
 public class HealthMonitoringClient {
-	// member variable that represents the gRPC channel through which the client communicates with the service.
-	 private final ManagedChannel channel;
-	 // member variable that represents the gRPC stub that the client uses to make requests to the service.
-	 private final HealthMonitoringServiceGrpc.HealthMonitoringServiceStub stub;
+	
+	   private final ManagedChannel channel;
+	    private final HealthMonitoringServiceGrpc.HealthMonitoringServiceStub stub;
 
-	    //constructor for the client. It takes a serviceName parameter, which is used to discover the gRPC service using jmDNS.
-	    public HealthMonitoringClient(String serviceName) throws IOException, InterruptedException {
-	    	// creates an array to hold the service information returned by jmDNS
-	        final ServiceInfo[] serviceInfo = new ServiceInfo[1];
-	        JmDNS jmdns = JmDNS.create(); //create a new mDNS instance.
-	        //create a new anonymous class that implements the ServiceListener interface. This class listens for events related to the discovery of the gRPC service.
-	        ServiceListener listener = new ServiceListener() {
-	            public void serviceAdded(ServiceEvent event) {
-	                System.out.println("Service added: " + event.getName());
-	            }
-	            public void serviceRemoved(ServiceEvent event) {
-	                System.out.println("Service removed: " + event.getName());
-	            }
-	            public void serviceResolved(ServiceEvent event) {
-	                System.out.println("Service resolved: " + event.getName() + ", " + event.getInfo());
-	                if (event.getName().equals(serviceName)) {
-	                    serviceInfo[0] = event.getInfo();
-	                    try {
-							jmdns.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-	                }
-	            }
-	        };
-	        
-	        //add the service listener to the mDNS instance. The _grpc._tcp.local. parameter specifies the service type that should be discovered.
-	        jmdns.addServiceListener("_grpc._tcp.local.", listener);
-	        //loop waits for the service to be discovered by jmDNS. It keeps checking the serviceInfo array until the service information is not null.
-	        while (serviceInfo[0] == null) {
-	            System.out.println("Waiting for service discovery...");
-	            Thread.sleep(9000);
-	        }
-	        //gets the port number on which the gRPC service is running.
-	        int port = serviceInfo[0].getPort();
-	        System.out.printf("Discovered service at %s:%d%n", serviceInfo[0].getHostAddresses()[0], port);
+	    public HealthMonitoringClient(String host, int port) {
+	        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
+	    }
 
-	        // creates a new gRPC channel using the discovered host address and port number. 
-	        channel = ManagedChannelBuilder.forAddress(serviceInfo[0].getHostAddresses()[0], port).usePlaintext().build();
-	        // creates a new gRPC stub using the channel. The stub is used to make requests to the gRPC service.
+	    public HealthMonitoringClient(ManagedChannelBuilder<?> channelBuilder) {
+	        channel = channelBuilder.build();
 	        stub = HealthMonitoringServiceGrpc.newStub(channel);
+	    }
+
+	    public void shutdown() throws InterruptedException {
+	        channel.shutdown().awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS);
 	    }
 
     public void trackSteps() throws InterruptedException {
@@ -471,19 +438,55 @@ public class HealthMonitoringClient {
         finishLatch.await();
     }
 
-    public void shutdown() throws InterruptedException {
+    public void shutdown1() throws InterruptedException {
     	// Gracefully shutdown the channel
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {//    	// Create a client instance and call the tracking methods
-    	HealthMonitoringClient client = new HealthMonitoringClient("HealthMonitoringService");
+    public static void main(String[] args) throws InterruptedException, IOException {
+        // Discover the service using jmDNS
+        String serviceType = "_grpc._tcp.local.";
+        String serviceName = "health-monitoring-service";
+        CountDownLatch latch = new CountDownLatch(1);
+        ServiceInfo[] serviceInfos = new ServiceInfo[1];
+
+        JmDNS jmdns = JmDNS.create();
+        ServiceListener listener = new ServiceListener() {
+            @Override
+            public void serviceAdded(ServiceEvent event) {
+                System.out.println("Service added: " + event.getName());
+            }
+
+            @Override
+            public void serviceRemoved(ServiceEvent event) {
+                System.out.println("Service removed: " + event.getName());
+            }
+
+            @Override
+            public void serviceResolved(ServiceEvent event) {
+                System.out.println("Service resolved: " + event.getName() + ", " + event.getInfo());
+                if (event.getName().equals(serviceName)) {
+                    serviceInfos[0] = event.getInfo();
+                    latch.countDown();
+                }
+            }
+        };
+        jmdns.addServiceListener(serviceType, listener);
+
+        System.out.println("Waiting for service discovery...");
+        latch.await();
+        ServiceInfo serviceInfo = serviceInfos[0];
+        int servicePort = serviceInfo.getPort();
+        String hostAddress = serviceInfo.getHostAddresses()[0];
+
+        System.out.printf("Discovered service at %s:%d%n", hostAddress, servicePort);
+
+        // Create a gRPC channel and stub
+        HealthMonitoringClient client = new HealthMonitoringClient(hostAddress, servicePort);
+
         client.trackSteps();
-        client.hearthRate();
-        client.trackSleep();
-        client.trackStress();
-       
-     // Shutdown the client's channel
-      client.channel.shutdown();
+//        client.hearthRate();
+//        client.trackSleep();
+//        client.trackStress();
     }
 }

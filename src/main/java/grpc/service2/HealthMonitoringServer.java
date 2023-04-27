@@ -8,41 +8,43 @@ import javax.jmdns.ServiceInfo;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class HealthMonitoringServer extends HealthMonitoringServiceGrpc.HealthMonitoringServiceImplBase {
 	
 	public static void main(String args []) throws IOException, InterruptedException {
 		
-		// Create an instance of the HealthMonitoringServer class
-	    HealthMonitoringServer healthMonitoringServer = new HealthMonitoringServer();
+        int port = 5002;
+        String serviceType = "_grpc._tcp.local.";
+        String serviceName = "health-monitoring-service";
+        String serviceDescription = "Health Monitoring Service";
+        
+        // Create the server
+        HealthMonitoringServer healthMonitoringServer = new HealthMonitoringServer();
+        Server server = ServerBuilder.forPort(port)
+                .addService(healthMonitoringServer)
+                .build();
 
-	    // Define the port number for the gRPC server
-	    int port = 5002;
+        // Register the service using jmDNS
+        try {
+            JmDNS jmdns = JmDNS.create();
+            ServiceInfo serviceInfo = ServiceInfo.create(serviceType, serviceName, port, serviceDescription);
+            jmdns.registerService(serviceInfo);
+            System.out.println("Registered service: " + serviceInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	    try { // Start the gRPC server
-	        Server server = ServerBuilder.forPort(port) 
-	                .addService(healthMonitoringServer)
-	                .build()
-	                .start();
-
-	        System.out.println("Server started, listening on " + port);
-
-	        // Register service with jmDNS
-	        JmDNS jmdns = JmDNS.create();
-	        ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "HealthMonitoringService", port, "Health Monitoring Service");
-	        jmdns.registerService(serviceInfo);
-
-	        // Wait for the server to terminate
-	        server.awaitTermination();
-
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    } catch (InterruptedException ee) {
-	        ee.printStackTrace();
-
-	    }
-	}
+        // Start the server
+        try {
+            server.start();
+            System.out.println("Server started, listening on " + port);
+            server.awaitTermination();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	@Override
 	public void trackSteps(UserStepsRequest request, StreamObserver<UserStepsResponse> responseObserver) {

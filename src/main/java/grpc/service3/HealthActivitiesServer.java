@@ -13,35 +13,31 @@ import io.grpc.stub.StreamObserver;
 
 public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 
-
-	public static void main(String args []) throws IOException, InterruptedException {
-        HealthActivitiesServer healthActivitiesServer = new HealthActivitiesServer();
+    public static void main(String[] args) throws IOException, InterruptedException {
         int port = 5003;
 
+        // Register service with JmDNS
         try {
-        	// Create a new gRPC server and register the HealthActivitiesServer implementation as a service.
-            Server server = ServerBuilder.forPort(port)
-                    .addService(healthActivitiesServer)
-                    .build()
-                    .start();
-
-            System.out.println("Server started, listening on " + port);
-
-            // Register service with jmDNS
             JmDNS jmdns = JmDNS.create();
-            ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "HealthActivitiesService", port, "Health Activities Service");
+            ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "HealthActivitiesService", port, "Health activities service");
             jmdns.registerService(serviceInfo);
-
-            // Block until the server is terminated
-            server.awaitTermination();
-
+            System.out.printf("Service %s:%d registered%n", serviceInfo.getName(), port);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException ee) {
-            ee.printStackTrace();
-
+            System.out.println(e.getMessage());
+            return;
         }
+
+        // Start gRPC server
+        HealthActivitiesServer healthActivitiesServer = new HealthActivitiesServer();
+        Server server = ServerBuilder.forPort(port)
+                .addService(healthActivitiesServer)
+                .build()
+                .start();
+
+        System.out.println("Server started, listening on " + port);
+        server.awaitTermination();
     }
+
 	
 	 @Override
      public void exercise(ExerciseRequest request, StreamObserver<ExerciseResponse> responseObserver) {
