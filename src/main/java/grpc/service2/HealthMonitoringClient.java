@@ -28,18 +28,21 @@ import io.grpc.stub.StreamObserver;
 
 public class HealthMonitoringClient {
 	
-	   private final ManagedChannel channel;
-	    private final HealthMonitoringServiceGrpc.HealthMonitoringServiceStub stub;
+	   private final ManagedChannel channel; // the gRPC channel
+	    private final HealthMonitoringServiceGrpc.HealthMonitoringServiceStub stub; // the gRPC stub
 
+	    // Constructor that takes the host and port of the gRPC server
 	    public HealthMonitoringClient(String host, int port) {
 	        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
 	    }
 
+	    // Constructor that takes a ManagedChannelBuilder
 	    public HealthMonitoringClient(ManagedChannelBuilder<?> channelBuilder) {
-	        channel = channelBuilder.build();
-	        stub = HealthMonitoringServiceGrpc.newStub(channel);
+	        channel = channelBuilder.build(); // build the gRPC channel
+	        stub = HealthMonitoringServiceGrpc.newStub(channel); // create a new gRPC stub using the channel
 	    }
 
+	    // Method to shut down the gRPC channel
 	    public void shutdown() throws InterruptedException {
 	        channel.shutdown().awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS);
 	    }
@@ -145,13 +148,6 @@ public class HealthMonitoringClient {
     }
 
     
-    /**
-     * Displays a JFrame for the user to enter their username and connect to the heart rate tracker.
-     * Once connected, displays a new JFrame with the user's heart rate and any warning messages.
-     * Uses a gRPC stream to receive real-time heart rate updates.
-     * The user can close the JFrame to stop the heart rate tracking.
-     * @throws InterruptedException
-     */
     public void hearthRate() throws InterruptedException {
     	// create a JFrame for the user to enter their username and connect
         JFrame frame = new JFrame("Heart Rate Tracker");
@@ -278,6 +274,13 @@ public class HealthMonitoringClient {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
+                // Check if any input field is empty
+                if (usernameField.getText().isEmpty() || snoringTimeField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in all the fields.");
+                    return;
+                }
+                
             	// Get the user input values
                 String username = usernameField.getText();
                 Date sleepTimeDate = (Date) sleepTimeSpinner.getValue();
@@ -317,9 +320,19 @@ public class HealthMonitoringClient {
                         int seconds = (int) ((totalSleepTimeMinutes * 60) % 60);
                         String formattedTotalSleepTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
 
-                        System.out.println("Total Sleep Time: " + formattedTotalSleepTime);
-                        System.out.println("Sleep Score: " + response.getSleepScore());
-                        System.out.println("Sleep Disorder: " + response.getSleepDisprder());
+                        JLabel sleepTimeLabel = new JLabel("Total Sleep Time: " + formattedTotalSleepTime);
+                        JLabel sleepScoreLabel = new JLabel("Sleep Score: " + response.getSleepScore());
+                        JLabel sleepDisorderLabel = new JLabel("Sleep Disorder: " + response.getSleepDisprder());
+
+                        JPanel resultPanel = new JPanel(new GridLayout(3, 1));
+                        resultPanel.add(sleepTimeLabel);
+                        resultPanel.add(sleepScoreLabel);
+                        resultPanel.add(sleepDisorderLabel);
+
+                        frame.remove(panel);
+                        frame.add(resultPanel);
+                        frame.revalidate();
+                        frame.repaint();
                     }
 
                     @Override
@@ -328,11 +341,10 @@ public class HealthMonitoringClient {
                         System.out.println("Error occurred: " + t.getMessage());
                     }
 
-
-                @Override
-                // Print a completion message
-                public void onCompleted() {
-                    System.out.println("Sleep tracking completed.");
+                    @Override
+                    // Print a completion message
+                    public void onCompleted() {
+                        System.out.println("Sleep tracking completed.");
                 }
             });
         }
@@ -450,6 +462,7 @@ public class HealthMonitoringClient {
         CountDownLatch latch = new CountDownLatch(1);
         ServiceInfo[] serviceInfos = new ServiceInfo[1];
 
+        // Create a JmDNS instance and register a ServiceListener
         JmDNS jmdns = JmDNS.create();
         ServiceListener listener = new ServiceListener() {
             @Override
@@ -474,16 +487,17 @@ public class HealthMonitoringClient {
         jmdns.addServiceListener(serviceType, listener);
 
         System.out.println("Waiting for service discovery...");
-        latch.await();
+        latch.await(); // Wait for the service to be discovered
         ServiceInfo serviceInfo = serviceInfos[0];
         int servicePort = serviceInfo.getPort();
         String hostAddress = serviceInfo.getHostAddresses()[0];
 
         System.out.printf("Discovered service at %s:%d%n", hostAddress, servicePort);
 
-        // Create a gRPC channel and stub
+        // Create a gRPC channel and stub to communicate with the discovered service
         HealthMonitoringClient client = new HealthMonitoringClient(hostAddress, servicePort);
 
+        // Call the desired client methods
         client.trackSteps();
 //        client.hearthRate();
 //        client.trackSleep();

@@ -15,6 +15,7 @@ public class HealthMonitoringServer extends HealthMonitoringServiceGrpc.HealthMo
 	
 	public static void main(String args []) throws IOException, InterruptedException {
 		
+		// Set the server port, service type, service name, and service description
         int port = 5002;
         String serviceType = "_grpc._tcp.local.";
         String serviceName = "health-monitoring-service";
@@ -27,11 +28,12 @@ public class HealthMonitoringServer extends HealthMonitoringServiceGrpc.HealthMo
                 .build();
 
         // Register the service using jmDNS
-        try {
-            JmDNS jmdns = JmDNS.create();
+        try { 
+            JmDNS jmdns = JmDNS.create(); // Create a new JmDNS instance
+            // Create a new service info with the service type, service name, port, and service description
             ServiceInfo serviceInfo = ServiceInfo.create(serviceType, serviceName, port, serviceDescription);
-            jmdns.registerService(serviceInfo);
-            System.out.println("Registered service: " + serviceInfo);
+            jmdns.registerService(serviceInfo); // Register the service with jmDNS
+            System.out.println("Registered service: " + serviceInfo); // Print a message indicating that the service has been registered successfully
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,8 +41,8 @@ public class HealthMonitoringServer extends HealthMonitoringServiceGrpc.HealthMo
         // Start the server
         try {
             server.start();
-            System.out.println("Server started, listening on " + port);
-            server.awaitTermination();
+            System.out.println("Server started, listening on " + port);  // Print a message indicating that the server has started
+            server.awaitTermination(); // Wait for the server to terminate
         } catch (IOException e) {
             e.printStackTrace();
         }

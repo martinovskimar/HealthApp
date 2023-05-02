@@ -1,6 +1,8 @@
 package grpc.service3;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 
@@ -16,7 +18,8 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 		
-        int port = 5002;
+    	// Define the port number, service type, service name, and service description
+        int port = 5003;
         String serviceType = "_grpc._tcp.local.";
         String serviceName = "health-activities-service";
         String serviceDescription = "Health Activities Service";
@@ -29,19 +32,21 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 
         // Register the service using jmDNS
         try {
-            JmDNS jmdns = JmDNS.create();
+            JmDNS jmdns = JmDNS.create(); // Create a JmDNS instance
+            // Create a ServiceInfo object with the service type, name, port, and description
             ServiceInfo serviceInfo = ServiceInfo.create(serviceType, serviceName, port, serviceDescription);
-            jmdns.registerService(serviceInfo);
-            System.out.println("Registered service: " + serviceInfo);
-        } catch (IOException e) {
+            jmdns.registerService(serviceInfo); // Register the service with jmDNS
+            System.out.println("Registered service: " + serviceInfo); // Print a message indicating that the service has been registered
+        } catch (IOException e) { 
             e.printStackTrace();
         }
 
         // Start the server
         try {
             server.start();
+            // Print a message indicating that the server has started and is listening on the specified port
             System.out.println("Server started, listening on " + port);
-            server.awaitTermination();
+            server.awaitTermination(); // Wait for the server to terminate
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,24 +55,25 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 	
 	 @Override
      public void exercise(ExerciseRequest request, StreamObserver<ExerciseResponse> responseObserver) {
-		 // Extract the exercise type from the request
-         String exerciseType = request.getExerciseType();
-         // Set some data for the response
-         int durationMinutes = 60;
-         float caloriesBurned = 500;
-         int avgHeartRate = 130;
-         int maxHeartRate = 160;
-         // Create a new ExerciseResponse object with the data
-         ExerciseResponse response = ExerciseResponse.newBuilder()
-                 .setDurationMinutes(durationMinutes)
-                 .setCaloriesBurned(caloriesBurned)
-                 .setAvgHeartRate(avgHeartRate)
-                 .setMaxHeartRate(maxHeartRate)
-                 .build();
-         
-        // Send the response back to the client
-         responseObserver.onNext(response);
-         responseObserver.onCompleted();
+		    // Extract the exercise type from the request
+		    String exerciseType = request.getExerciseType();
+		    // Generate random values for duration and heart rates
+		    int durationMinutes = (int) (Math.random() * 120) + 30; // Random duration between 30 and 150 minutes
+		    int avgHeartRate = (int) (Math.random() * 40) + 100; // Random average heart rate between 100 and 140 bpm
+		    int maxHeartRate = (int) (avgHeartRate * 1.2); // Max heart rate is 20% higher than avg heart rate
+		    // Calculate calories burned based on the duration
+		    float caloriesBurned = durationMinutes * (float) (Math.random() * 10 + 5); // Burn 5-15 calories per minute
+		    // Create a new ExerciseResponse object with the data
+		    ExerciseResponse response = ExerciseResponse.newBuilder()
+		            .setDurationMinutes(durationMinutes)
+		            .setCaloriesBurned(caloriesBurned)
+		            .setAvgHeartRate(avgHeartRate)
+		            .setMaxHeartRate(maxHeartRate)
+		            .build();
+
+		    // Send the response back to the client
+		    responseObserver.onNext(response);
+		    responseObserver.onCompleted();
      }
 	 
 	 @Override
@@ -111,13 +117,15 @@ public class HealthActivitiesServer extends HealthActivitiesServiceImplBase {
 	 @Override
 	 public void callAmbulance(EmergencyRequest request, StreamObserver<EmergencyResponse> responseObserver) {
 	     String username = request.getUsername();
+	     boolean callAmbulance = false;
+	     String message = "";
 	     //checks if the username in the request message is valid, and if it is not, it returns an error message.
 	     if (username == null || !username.equals("martin") ) {
-	    	 responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("Invalid username.").asRuntimeException());
-	         return;
+	    	 message = "Invalid username.";
+	     } else {
+	    	 callAmbulance = true;
 	     }
-	     //If the username is valid, the method sets the boolean callAmbulance to true and creates an EmergencyResponse message with this value.
-	     boolean callAmbulance = true; 
+	    
 	     EmergencyResponse response = EmergencyResponse.newBuilder()
 	             .setCallAmbulance(callAmbulance)
 	             .build();
